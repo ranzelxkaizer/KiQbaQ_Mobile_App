@@ -6,16 +6,6 @@ A comprehensive mobile application for marketing agents to manage leads, track b
 ![Expo](https://img.shields.io/badge/Expo-000020?style=flat&logo=expo&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat&logo=typescript&logoColor=white)
 
-## 📋 Table of Contents
-- [Features](#features)
-- [Prerequisites](#prerequisites)
-- [Installation](#installation)
-- [Running the App](#running-the-app)
-- [Project Structure](#project-structure)
-- [Development Guide](#development-guide)
-- [Backend Integration](#backend-integration)
-- [Troubleshooting](#troubleshooting)
-
 ## ✨ Features
 
 ### Authentication & Onboarding
