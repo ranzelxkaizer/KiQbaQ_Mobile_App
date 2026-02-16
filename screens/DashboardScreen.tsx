@@ -1,7 +1,6 @@
 import { useRouter } from "expo-router";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import {
-  Animated,
   Dimensions,
   ScrollView,
   StyleSheet,
@@ -15,15 +14,6 @@ import BurgerMenu from "../components/BurgerMenu";
 const { width, height } = Dimensions.get("window");
 
 interface DashboardProps {}
-
-interface Notification {
-  id: string;
-  title: string;
-  message: string;
-  timestamp: string;
-  read: boolean;
-  type: "info" | "success" | "warning" | "error";
-}
 
 interface Schedule {
   id: string;
@@ -39,128 +29,38 @@ const Dashboard: React.FC<DashboardProps> = () => {
   const router = useRouter();
   const { isDarkMode, toggleDarkMode } = useTheme();
 
-  // Verify this Dashboard component is actually being used
-  console.log(
-    "✅ DASHBOARD COMPONENT LOADED - Updated version with logout fix",
-  );
-
   const [activeTab, setActiveTab] = useState<"announcements" | "leads">(
     "announcements",
   );
   const [activeSubTab, setActiveSubTab] = useState<
     "announcements" | "schedules"
   >("announcements");
-  const [notificationsVisible, setNotificationsVisible] = useState(false);
   const [profileDropdownVisible, setProfileDropdownVisible] = useState(false);
 
-  // User data - This will come from authentication/backend
+  // User data
   const userData = {
     name: "Ranzel Jude",
     role: "Agent",
-    avatar: "👤", // Can be replaced with actual image URL
+    avatar: "👤",
   };
 
-  // Mock notifications - This will be replaced with backend data
-  const [notifications, setNotifications] = useState<Notification[]>([]);
-
-  // Mock schedules - This will be replaced with backend data
+  // Mock schedules
   const [schedules, setSchedules] = useState<Schedule[]>([]);
 
-  // Animation values for notifications only (menu animations now in BurgerMenu component)
-  const notificationSlideAnim = useRef(new Animated.Value(-300)).current;
-
-  useEffect(() => {
-    if (notificationsVisible) {
-      Animated.timing(notificationSlideAnim, {
-        toValue: 0,
-        duration: 300,
-        useNativeDriver: true,
-      }).start();
-    } else {
-      Animated.timing(notificationSlideAnim, {
-        toValue: -300,
-        duration: 250,
-        useNativeDriver: true,
-      }).start();
-    }
-  }, [notificationsVisible]);
-
-  const toggleNotifications = () => {
-    setNotificationsVisible(!notificationsVisible);
-  };
-
   const toggleProfileDropdown = () => {
-    console.log(
-      "🟡 Toggle dropdown called. Current state:",
-      profileDropdownVisible,
-    );
     setProfileDropdownVisible(!profileDropdownVisible);
-    console.log("🟡 New state will be:", !profileDropdownVisible);
   };
 
   const handleLogout = () => {
-    console.log("Logout button clicked!");
     setProfileDropdownVisible(false);
-
-    try {
-      console.log("Attempting to navigate to landing page...");
-
-      // TODO: Clear auth tokens, user data, etc.
-
-      // Try to navigate out of tabs and to root
-      console.log('Trying router.dismissAll() then router.replace("/")');
-      router.dismissAll();
-      router.replace("/");
-
-      console.log("Navigation command executed");
-    } catch (error) {
-      console.error("Navigation error:", error);
-    }
+    // Navigate to root app/index.tsx
+    router.navigate("/LandingPage");
   };
 
   const handleMyProfile = () => {
     setProfileDropdownVisible(false);
-    console.log("Navigating to My Profile...");
-    // Navigate to Profile screen via app route
     router.push("/ProfileScreen");
   };
-
-  const markAsRead = (notificationId: string) => {
-    setNotifications(
-      notifications.map((notif) =>
-        notif.id === notificationId ? { ...notif, read: true } : notif,
-      ),
-    );
-  };
-
-  const markAllAsRead = () => {
-    setNotifications(notifications.map((notif) => ({ ...notif, read: true })));
-  };
-
-  const clearNotification = (notificationId: string) => {
-    setNotifications(
-      notifications.filter((notif) => notif.id !== notificationId),
-    );
-  };
-
-  const clearAllNotifications = () => {
-    setNotifications([]);
-  };
-
-  const getNotificationIcon = (type: Notification["type"]) => {
-    switch (type) {
-      case "success":
-        return "✅";
-      case "warning":
-        return "⚠️";
-      case "error":
-        return "❌";
-      default:
-        return "ℹ️";
-    }
-  };
-
-  const unreadCount = notifications.filter((n) => !n.read).length;
 
   const getScheduleTypeIcon = (type: Schedule["type"]) => {
     switch (type) {
@@ -232,6 +132,7 @@ const Dashboard: React.FC<DashboardProps> = () => {
     iconBg: isDarkMode ? "#404040" : "#f8f9fa",
     // Keep brand colors consistent
     primary: "#6c5ce7",
+    secondary: "#48cae4", // Lighter teal for sub-tabs
     green: "#00b894",
     orange: "#fd9644",
     blue: "#17a2b8",
@@ -240,330 +141,121 @@ const Dashboard: React.FC<DashboardProps> = () => {
 
   return (
     <View style={styles.container}>
-      {/* BurgerMenu Component - Handles all navigation */}
+      {/* BurgerMenu Component */}
       <BurgerMenu currentPage="Dashboard" />
 
-      {/* Notifications Modal - Screen-centered, OUTSIDE ScrollView */}
-      {notificationsVisible && (
-        <View style={styles.notificationsModalOverlay}>
+      {/* Header - Icons Only - Fixed at top */}
+      <View style={[styles.header, { backgroundColor: colors.headerBg }]}>
+        <View style={styles.headerLeft}>
+          {/* Empty space for burger button alignment */}
+          <View style={styles.burgerButtonSpace} />
+        </View>
+        <View style={styles.headerIcons}>
           <TouchableOpacity
-            style={styles.notificationsBackdrop}
-            activeOpacity={1}
-            onPress={toggleNotifications}
-          />
-          <Animated.View
-            style={[
-              styles.notificationsModal,
-              {
-                backgroundColor: colors.cardBackground,
-                opacity: notificationSlideAnim.interpolate({
-                  inputRange: [-300, 0],
-                  outputRange: [0, 1],
-                }),
-                transform: [
-                  {
-                    scale: notificationSlideAnim.interpolate({
-                      inputRange: [-300, 0],
-                      outputRange: [0.8, 1],
-                    }),
-                  },
-                ],
-              },
-            ]}
+            style={[styles.iconButton, { backgroundColor: colors.iconBg }]}
+            onPress={() => router.push("/NotificationsScreen")}
           >
-            <View
-              style={[
-                styles.notificationsHeader,
-                { borderBottomColor: colors.border },
-              ]}
+            <Text style={styles.icon}>🔔</Text>
+          </TouchableOpacity>
+          <View style={styles.profileContainer}>
+            <TouchableOpacity
+              style={[styles.iconButton, { backgroundColor: colors.iconBg }]}
+              onPress={toggleProfileDropdown}
             >
-              <View>
-                <Text
-                  style={[styles.notificationsTitle, { color: colors.text }]}
-                >
-                  Notifications
-                </Text>
-                {unreadCount > 0 && (
-                  <Text
-                    style={[
-                      styles.unreadCountText,
-                      { color: colors.textSecondary },
-                    ]}
-                  >
-                    {unreadCount} unread
-                  </Text>
-                )}
-              </View>
-              <View style={styles.notificationHeaderActions}>
-                {unreadCount > 0 && (
-                  <TouchableOpacity onPress={markAllAsRead}>
-                    <Text
-                      style={[
-                        styles.markAllReadText,
-                        { color: colors.primary },
-                      ]}
-                    >
-                      Mark all read
-                    </Text>
-                  </TouchableOpacity>
-                )}
-                <TouchableOpacity
-                  onPress={toggleNotifications}
-                  style={styles.closeNotificationsButton}
-                >
-                  <Text
-                    style={[
-                      styles.closeNotificationsText,
-                      { color: colors.textSecondary },
-                    ]}
-                  >
-                    ✕
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
+              <Text style={styles.icon}>👤</Text>
+            </TouchableOpacity>
 
-            <ScrollView
-              style={styles.notificationsList}
-              showsVerticalScrollIndicator={false}
-            >
-              {notifications.length === 0 ? (
-                <View style={styles.emptyNotifications}>
-                  <Text style={styles.emptyNotificationsIcon}>🔔</Text>
-                  <Text
+            {/* Profile Dropdown */}
+            {profileDropdownVisible && (
+              <>
+                <TouchableOpacity
+                  style={styles.profileDropdownBackdropInline}
+                  activeOpacity={1}
+                  onPress={toggleProfileDropdown}
+                />
+
+                <View
+                  style={[
+                    styles.profileDropdown,
+                    {
+                      backgroundColor: colors.cardBackground,
+                      borderColor: colors.border,
+                    },
+                  ]}
+                >
+                  <View
                     style={[
-                      styles.emptyNotificationsText,
-                      { color: colors.textSecondary },
+                      styles.profileDropdownHeader,
+                      { borderBottomColor: colors.border },
                     ]}
                   >
-                    No notifications yet
-                  </Text>
-                </View>
-              ) : (
-                notifications.map((notification) => (
-                  <TouchableOpacity
-                    key={notification.id}
-                    style={[
-                      styles.notificationItem,
-                      {
-                        backgroundColor: notification.read
-                          ? "transparent"
-                          : isDarkMode
-                            ? "#2a2a3e"
-                            : "#f0f4ff",
-                        borderBottomColor: colors.border,
-                      },
-                    ]}
-                    onPress={() => markAsRead(notification.id)}
-                  >
-                    <View style={styles.notificationContent}>
-                      <Text style={styles.notificationTypeIcon}>
-                        {getNotificationIcon(notification.type)}
+                    <View style={styles.profileAvatar}>
+                      <Text style={styles.profileAvatarText}>
+                        {userData.avatar}
                       </Text>
-                      <View style={styles.notificationTextContainer}>
-                        <View style={styles.notificationTitleRow}>
-                          <Text
-                            style={[
-                              styles.notificationTitle,
-                              { color: colors.text },
-                            ]}
-                          >
-                            {notification.title}
-                          </Text>
-                          {!notification.read && (
-                            <View
-                              style={[
-                                styles.unreadDot,
-                                { backgroundColor: colors.primary },
-                              ]}
-                            />
-                          )}
-                        </View>
-                        <Text
-                          style={[
-                            styles.notificationMessage,
-                            { color: colors.textSecondary },
-                          ]}
-                        >
-                          {notification.message}
-                        </Text>
-                        <Text
-                          style={[
-                            styles.notificationTimestamp,
-                            { color: colors.textSecondary },
-                          ]}
-                        >
-                          {notification.timestamp}
-                        </Text>
-                      </View>
                     </View>
-                    <TouchableOpacity
-                      style={styles.clearNotificationButton}
-                      onPress={() => clearNotification(notification.id)}
-                    >
+                    <View style={styles.profileInfo}>
+                      <Text
+                        style={[styles.profileName, { color: colors.text }]}
+                      >
+                        {userData.name}
+                      </Text>
                       <Text
                         style={[
-                          styles.clearNotificationText,
+                          styles.profileRole,
                           { color: colors.textSecondary },
                         ]}
                       >
-                        ✕
+                        {userData.role}
                       </Text>
-                    </TouchableOpacity>
-                  </TouchableOpacity>
-                ))
-              )}
-            </ScrollView>
+                    </View>
+                  </View>
 
-            {notifications.length > 0 && (
-              <TouchableOpacity
-                style={[
-                  styles.clearAllButton,
-                  {
-                    backgroundColor: colors.iconBg,
-                    borderTopColor: colors.border,
-                  },
-                ]}
-                onPress={clearAllNotifications}
-              >
-                <Text
-                  style={[styles.clearAllButtonText, { color: colors.red }]}
-                >
-                  Clear All Notifications
-                </Text>
-              </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.profileMenuItem}
+                    onPress={handleMyProfile}
+                  >
+                    <Text style={styles.profileMenuIcon}>👤</Text>
+                    <Text
+                      style={[styles.profileMenuText, { color: colors.text }]}
+                    >
+                      My Profile
+                    </Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={[styles.profileMenuItem, styles.profileMenuItemLast]}
+                    onPress={handleLogout}
+                  >
+                    <Text style={styles.profileMenuIcon}>🚪</Text>
+                    <Text
+                      style={[styles.profileMenuText, { color: colors.text }]}
+                    >
+                      Log Out
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </>
             )}
-          </Animated.View>
+          </View>
         </View>
-      )}
+      </View>
 
       <ScrollView
         style={[styles.scrollContainer, { backgroundColor: colors.background }]}
       >
-        {/* Header */}
-        <View style={[styles.header, { backgroundColor: colors.headerBg }]}>
-          <View style={styles.headerLeft}>
-            {/* Empty space for burger button alignment */}
-            <View style={styles.burgerButtonSpace} />
-            <View>
-              <Text style={[styles.headerTitle, { color: colors.text }]}>
-                📊 Dashboard
-              </Text>
-              <Text
-                style={[styles.headerSubtitle, { color: colors.textSecondary }]}
-              >
-                Welcome back! Here's what's happening with your leads today.
-              </Text>
-            </View>
-          </View>
-          <View style={styles.headerIcons}>
-            <TouchableOpacity
-              style={[styles.iconButton, { backgroundColor: colors.iconBg }]}
-              onPress={toggleNotifications}
+        {/* Page Title - In content area */}
+        <View style={styles.pageTitleContainer}>
+          <Text style={styles.pageTitleIcon}>📊</Text>
+          <View style={styles.pageTitleTextContainer}>
+            <Text style={[styles.pageTitle, { color: colors.text }]}>
+              Dashboard
+            </Text>
+            <Text
+              style={[styles.pageSubtitle, { color: colors.textSecondary }]}
             >
-              <Text style={styles.icon}>🔔</Text>
-              {unreadCount > 0 && (
-                <View style={styles.notificationBadge}>
-                  <Text style={styles.notificationBadgeText}>
-                    {unreadCount > 9 ? "9+" : unreadCount}
-                  </Text>
-                </View>
-              )}
-            </TouchableOpacity>
-            <View style={styles.profileContainer}>
-              <TouchableOpacity
-                style={[styles.iconButton, { backgroundColor: colors.iconBg }]}
-                onPress={() => {
-                  console.log("🟢 PROFILE ICON CLICKED! 🟢");
-                  toggleProfileDropdown();
-                }}
-              >
-                <Text style={styles.icon}>👤</Text>
-              </TouchableOpacity>
-
-              {/* Profile Dropdown */}
-              {profileDropdownVisible && (
-                <>
-                  {/* Backdrop for closing dropdown */}
-                  <TouchableOpacity
-                    style={styles.profileDropdownBackdropInline}
-                    activeOpacity={1}
-                    onPress={() => {
-                      console.log("🔵 BACKDROP CLICKED 🔵");
-                      toggleProfileDropdown();
-                    }}
-                  />
-
-                  <View
-                    style={[
-                      styles.profileDropdown,
-                      {
-                        backgroundColor: colors.cardBackground,
-                        borderColor: colors.border,
-                      },
-                    ]}
-                  >
-                    <View
-                      style={[
-                        styles.profileDropdownHeader,
-                        { borderBottomColor: colors.border },
-                      ]}
-                    >
-                      <View style={styles.profileAvatar}>
-                        <Text style={styles.profileAvatarText}>
-                          {userData.avatar}
-                        </Text>
-                      </View>
-                      <View style={styles.profileInfo}>
-                        <Text
-                          style={[styles.profileName, { color: colors.text }]}
-                        >
-                          {userData.name}
-                        </Text>
-                        <Text
-                          style={[
-                            styles.profileRole,
-                            { color: colors.textSecondary },
-                          ]}
-                        >
-                          {userData.role}
-                        </Text>
-                      </View>
-                    </View>
-
-                    <TouchableOpacity
-                      style={styles.profileMenuItem}
-                      onPress={handleMyProfile}
-                    >
-                      <Text style={styles.profileMenuIcon}>👤</Text>
-                      <Text
-                        style={[styles.profileMenuText, { color: colors.text }]}
-                      >
-                        My Profile
-                      </Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                      style={[
-                        styles.profileMenuItem,
-                        styles.profileMenuItemLast,
-                      ]}
-                      onPress={() => {
-                        console.log("🔴 LOG OUT BUTTON PRESSED! 🔴");
-                        handleLogout();
-                      }}
-                    >
-                      <Text style={styles.profileMenuIcon}>🚪</Text>
-                      <Text
-                        style={[styles.profileMenuText, { color: colors.text }]}
-                      >
-                        Log Out
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-                </>
-              )}
-            </View>
+              Welcome back! Here's what's happening with your leads today.
+            </Text>
           </View>
         </View>
 
@@ -648,7 +340,7 @@ const Dashboard: React.FC<DashboardProps> = () => {
                 style={[
                   styles.subTab,
                   activeSubTab === "announcements" && {
-                    backgroundColor: colors.primary,
+                    backgroundColor: colors.secondary,
                   },
                 ]}
                 onPress={() => setActiveSubTab("announcements")}
@@ -672,7 +364,7 @@ const Dashboard: React.FC<DashboardProps> = () => {
                 style={[
                   styles.subTab,
                   activeSubTab === "schedules" && {
-                    backgroundColor: colors.primary,
+                    backgroundColor: colors.secondary,
                   },
                 ]}
                 onPress={() => setActiveSubTab("schedules")}
@@ -1022,160 +714,7 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     flex: 1,
-  },
-  menuContainer: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    zIndex: 1000,
-  },
-  modalOverlay: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-  },
-  overlayTouchable: {
-    flex: 1,
-  },
-  sidebar: {
-    position: "absolute",
-    left: 0,
-    top: 0,
-    width: width * 0.75,
-    height: height,
-    backgroundColor: "#ffffff",
-    shadowColor: "#000",
-    shadowOffset: { width: 2, height: 0 },
-    shadowOpacity: 0.25,
-    shadowRadius: 8,
-    elevation: 5,
-  },
-  sidebarHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: 20,
-    paddingTop: 50,
-    backgroundColor: "#6c5ce7",
-  },
-  logoContainer: {
-    width: 40,
-    height: 40,
-    borderRadius: 8,
-    backgroundColor: "#ffffff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  logo: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "#6c5ce7",
-  },
-  closeButton: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: "rgba(255, 255, 255, 0.2)",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  closeButtonText: {
-    fontSize: 20,
-    color: "#ffffff",
-    fontWeight: "600",
-  },
-  navItemsContainer: {
-    flex: 1,
-    paddingVertical: 12,
-  },
-  navItem: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingVertical: 14,
-    paddingHorizontal: 20,
-    gap: 12,
-  },
-  navItemActive: {
-    backgroundColor: "#e8e5ff",
-    borderLeftWidth: 4,
-    borderLeftColor: "#6c5ce7",
-  },
-  navIcon: {
-    fontSize: 20,
-  },
-  navLabel: {
-    fontSize: 14,
-    color: "#6c757d",
-    fontWeight: "500",
-  },
-  navLabelActive: {
-    color: "#6c5ce7",
-    fontWeight: "600",
-  },
-  sidebarFooter: {
-    padding: 20,
-    borderTopWidth: 1,
-    borderTopColor: "#e9ecef",
-  },
-  darkModeToggle: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingVertical: 12,
-    paddingHorizontal: 8,
-    marginBottom: 12,
-    backgroundColor: "#f8f9fa",
-    borderRadius: 8,
-  },
-  darkModeContent: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 10,
-  },
-  darkModeIcon: {
-    fontSize: 20,
-  },
-  darkModeText: {
-    fontSize: 14,
-    color: "#2c3e50",
-    fontWeight: "600",
-  },
-  toggleSwitch: {
-    width: 50,
-    height: 28,
-    borderRadius: 14,
-    backgroundColor: "#cbd5e0",
-    padding: 2,
-    justifyContent: "center",
-  },
-  toggleSwitchActive: {
-    backgroundColor: "#6c5ce7",
-  },
-  toggleThumb: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
-    backgroundColor: "#ffffff",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
-    elevation: 2,
-  },
-  footerDivider: {
-    height: 1,
-    backgroundColor: "#e9ecef",
-    marginVertical: 12,
-  },
-  footerText: {
-    fontSize: 12,
-    color: "#6c757d",
-    textAlign: "center",
+    paddingBottom: 80, // Space for navigation buttons
   },
   burgerButtonSpace: {
     width: 40,
@@ -1188,20 +727,17 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-start",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+    zIndex: 10,
   },
   headerLeft: {
     flexDirection: "row",
     alignItems: "flex-start",
     flex: 1,
-  },
-  headerTitle: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 4,
-  },
-  headerSubtitle: {
-    fontSize: 13,
-    maxWidth: width * 0.6,
   },
   headerIcons: {
     flexDirection: "row",
@@ -1216,6 +752,30 @@ const styles = StyleSheet.create({
   },
   icon: {
     fontSize: 18,
+  },
+  // Page Title Section in content area
+  pageTitleContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 20,
+    paddingTop: 8,
+    paddingBottom: 20,
+    gap: 12,
+  },
+  pageTitleIcon: {
+    fontSize: 32,
+  },
+  pageTitleTextContainer: {
+    flex: 1,
+  },
+  pageTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 4,
+  },
+  pageSubtitle: {
+    fontSize: 13,
+    lineHeight: 18,
   },
   budgetContainer: {
     padding: 16,
@@ -1254,9 +814,6 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     alignItems: "center",
     borderRadius: 6,
-  },
-  mainTabActive: {
-    backgroundColor: "#6c5ce7",
   },
   mainTabText: {
     fontSize: 13,
@@ -1346,7 +903,6 @@ const styles = StyleSheet.create({
   statusLabel: {
     fontSize: 13,
     fontWeight: "600",
-    color: "#2c3e50",
     letterSpacing: 0.5,
     marginBottom: 16,
   },
@@ -1430,162 +986,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: "600",
   },
-  // Notification Badge
-  notificationBadge: {
-    position: "absolute",
-    top: -4,
-    right: -4,
-    backgroundColor: "#d63031",
-    borderRadius: 10,
-    minWidth: 18,
-    height: 18,
-    alignItems: "center",
-    justifyContent: "center",
-    paddingHorizontal: 4,
-  },
-  notificationBadgeText: {
-    color: "#ffffff",
-    fontSize: 10,
-    fontWeight: "bold",
-  },
-  // Notifications Modal Popup
-  notificationsModalOverlay: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    zIndex: 2000,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  notificationsBackdrop: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-  },
-  notificationsModal: {
-    width: width * 0.9,
-    maxWidth: 500,
-    maxHeight: height * 0.7,
-    borderRadius: 16,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.2,
-    shadowRadius: 16,
-    elevation: 10,
-    overflow: "hidden",
-  },
-  notificationsHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: 16,
-    borderBottomWidth: 1,
-  },
-  notificationsTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-  unreadCountText: {
-    fontSize: 12,
-    marginTop: 2,
-  },
-  notificationHeaderActions: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 12,
-  },
-  markAllReadText: {
-    fontSize: 13,
-    fontWeight: "600",
-  },
-  closeNotificationsButton: {
-    width: 28,
-    height: 28,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  closeNotificationsText: {
-    fontSize: 20,
-    fontWeight: "600",
-  },
-  notificationsList: {
-    maxHeight: height * 0.5,
-  },
-  emptyNotifications: {
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: 40,
-  },
-  emptyNotificationsIcon: {
-    fontSize: 48,
-    marginBottom: 12,
-    opacity: 0.5,
-  },
-  emptyNotificationsText: {
-    fontSize: 14,
-  },
-  notificationItem: {
-    flexDirection: "row",
-    padding: 12,
-    borderBottomWidth: 1,
-    alignItems: "flex-start",
-  },
-  notificationContent: {
-    flex: 1,
-    flexDirection: "row",
-    gap: 12,
-  },
-  notificationTypeIcon: {
-    fontSize: 20,
-    marginTop: 2,
-  },
-  notificationTextContainer: {
-    flex: 1,
-  },
-  notificationTitleRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-    marginBottom: 4,
-  },
-  notificationTitle: {
-    fontSize: 14,
-    fontWeight: "600",
-  },
-  unreadDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-  },
-  notificationMessage: {
-    fontSize: 13,
-    lineHeight: 18,
-    marginBottom: 4,
-  },
-  notificationTimestamp: {
-    fontSize: 11,
-  },
-  clearNotificationButton: {
-    padding: 4,
-    marginLeft: 8,
-  },
-  clearNotificationText: {
-    fontSize: 18,
-  },
-  clearAllButton: {
-    padding: 14,
-    alignItems: "center",
-    borderTopWidth: 1,
-  },
-  clearAllButtonText: {
-    fontSize: 13,
-    fontWeight: "600",
-  },
   // Schedules Styles
   schedulesContent: {
     borderRadius: 8,
@@ -1599,16 +999,6 @@ const styles = StyleSheet.create({
   },
   schedulesTitle: {
     fontSize: 15,
-    fontWeight: "600",
-  },
-  addScheduleButton: {
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 6,
-  },
-  addScheduleButtonText: {
-    fontSize: 11,
-    color: "#ffffff",
     fontWeight: "600",
   },
   schedulesList: {
@@ -1747,16 +1137,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "500",
   },
-  profileDropdownBackdrop: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    zIndex: 999,
-  },
   profileDropdownBackdropInline: {
-    position: "fixed",
+    position: "absolute",
     top: 0,
     left: 0,
     right: 0,

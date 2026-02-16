@@ -1,13 +1,13 @@
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
-    Modal,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  Modal,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { useTheme } from "../app/contexts/ThemeContext";
 import BurgerMenu from "../components/BurgerMenu";
@@ -25,13 +25,133 @@ const LeadsManagementScreen: React.FC = () => {
 
   const [leads, setLeads] = useState<Lead[]>([
     // Mock data - will be replaced with backend data
-    // Empty for now to show "No data available"
+    // Total: 20 leads | Active: 8 | Pending: 6 | Won: 4 | Lost: 3
+    {
+      id: "1",
+      schoolName: "Ateneo de Manila University",
+      address: "Katipunan Avenue, Loyola Heights, Quezon City",
+      status: "Active",
+    },
+    {
+      id: "2",
+      schoolName: "University of the Philippines Diliman",
+      address: "Diliman, Quezon City, Metro Manila",
+      status: "Pending",
+    },
+    {
+      id: "3",
+      schoolName: "De La Salle University",
+      address: "2401 Taft Avenue, Malate, Manila",
+      status: "Won",
+    },
+    {
+      id: "4",
+      schoolName: "University of Santo Tomas",
+      address: "España Boulevard, Sampaloc, Manila",
+      status: "Active",
+    },
+    {
+      id: "5",
+      schoolName: "Far Eastern University",
+      address: "Nicanor Reyes Street, Sampaloc, Manila",
+      status: "Lost",
+    },
+    {
+      id: "6",
+      schoolName: "Adamson University",
+      address: "900 San Marcelino Street, Ermita, Manila",
+      status: "Pending",
+    },
+    {
+      id: "7",
+      schoolName: "Polytechnic University of the Philippines",
+      address: "Anonas Street, Santa Mesa, Manila",
+      status: "Active",
+    },
+    {
+      id: "8",
+      schoolName: "National University",
+      address: "551 M.F. Jhocson Street, Sampaloc, Manila",
+      status: "Won",
+    },
+    {
+      id: "9",
+      schoolName: "Mapúa University",
+      address: "Muralla Street, Intramuros, Manila",
+      status: "Active",
+    },
+    {
+      id: "10",
+      schoolName: "Philippine Normal University",
+      address: "Taft Avenue, Malate, Manila",
+      status: "Pending",
+    },
+    {
+      id: "11",
+      schoolName: "Technological University of the Philippines",
+      address: "Ayala Boulevard, Ermita, Manila",
+      status: "Active",
+    },
+    {
+      id: "12",
+      schoolName: "Centro Escolar University",
+      address: "Mendiola Street, San Miguel, Manila",
+      status: "Lost",
+    },
+    {
+      id: "13",
+      schoolName: "Saint Louis University",
+      address: "A. Bonifacio Street, Baguio City",
+      status: "Active",
+    },
+    {
+      id: "14",
+      schoolName: "University of San Carlos",
+      address: "P. del Rosario Street, Cebu City",
+      status: "Pending",
+    },
+    {
+      id: "15",
+      schoolName: "Silliman University",
+      address: "Hibbard Avenue, Dumaguete City",
+      status: "Won",
+    },
+    {
+      id: "16",
+      schoolName: "Xavier University",
+      address: "Corrales Avenue, Cagayan de Oro City",
+      status: "Active",
+    },
+    {
+      id: "17",
+      schoolName: "Ateneo de Davao University",
+      address: "E. Jacinto Street, Davao City",
+      status: "Pending",
+    },
+    {
+      id: "18",
+      schoolName: "University of San Agustin",
+      address: "General Luna Street, Iloilo City",
+      status: "Won",
+    },
+    {
+      id: "19",
+      schoolName: "Central Philippine University",
+      address: "Lopez Jaena Street, Iloilo City",
+      status: "Active",
+    },
+    {
+      id: "20",
+      schoolName: "West Visayas State University",
+      address: "Luna Street, La Paz, Iloilo City",
+      status: "Lost",
+    },
   ]);
 
   const [searchQuery, setSearchQuery] = useState("");
   const [entriesPerPage, setEntriesPerPage] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1);
   const [showEntriesDropdown, setShowEntriesDropdown] = useState(false);
-  const [notificationsVisible, setNotificationsVisible] = useState(false);
   const [profileDropdownVisible, setProfileDropdownVisible] = useState(false);
   const [showAddLeadModal, setShowAddLeadModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -58,7 +178,6 @@ const LeadsManagementScreen: React.FC = () => {
     primary: "#6c5ce7",
     gradient1: "#6c5ce7",
     gradient2: "#a78bfa",
-    tableHeader: "#7c6fe7",
   };
 
   const userData = {
@@ -129,7 +248,7 @@ const LeadsManagementScreen: React.FC = () => {
 
   const handleLogout = () => {
     router.dismissAll();
-    router.replace("/");
+    router.replace("/LandingPage");
   };
 
   const handleMyProfile = () => {
@@ -141,6 +260,17 @@ const LeadsManagementScreen: React.FC = () => {
       lead.schoolName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       lead.address.toLowerCase().includes(searchQuery.toLowerCase()),
   );
+
+  // Pagination logic
+  const totalPages = Math.ceil(filteredLeads.length / entriesPerPage);
+  const startIndex = (currentPage - 1) * entriesPerPage;
+  const endIndex = startIndex + entriesPerPage;
+  const paginatedLeads = filteredLeads.slice(startIndex, endIndex);
+
+  // Reset to page 1 when search query or entries per page changes
+  React.useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, entriesPerPage]);
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
@@ -210,7 +340,7 @@ const LeadsManagementScreen: React.FC = () => {
         <View style={styles.headerRight}>
           <TouchableOpacity
             style={[styles.iconButton, { backgroundColor: colors.border }]}
-            onPress={() => setNotificationsVisible(true)}
+            onPress={() => router.push("/NotificationsScreen")}
           >
             <Text style={styles.icon}>🔔</Text>
           </TouchableOpacity>
@@ -261,21 +391,73 @@ const LeadsManagementScreen: React.FC = () => {
               <Text style={[styles.controlLabel, { color: colors.text }]}>
                 Show
               </Text>
-              <TouchableOpacity
-                style={[
-                  styles.entriesDropdown,
-                  {
-                    backgroundColor: colors.background,
-                    borderColor: colors.border,
-                  },
-                ]}
-                onPress={() => setShowEntriesDropdown(!showEntriesDropdown)}
-              >
-                <Text style={[styles.entriesText, { color: colors.text }]}>
-                  {entriesPerPage}
-                </Text>
-                <Text style={styles.dropdownArrow}>▼</Text>
-              </TouchableOpacity>
+              <View style={styles.dropdownWrapper}>
+                <TouchableOpacity
+                  style={[
+                    styles.entriesDropdown,
+                    {
+                      backgroundColor: colors.background,
+                      borderColor: colors.border,
+                    },
+                  ]}
+                  onPress={() => setShowEntriesDropdown(!showEntriesDropdown)}
+                >
+                  <Text style={[styles.entriesText, { color: colors.text }]}>
+                    {entriesPerPage}
+                  </Text>
+                  <Text style={styles.dropdownArrow}>▼</Text>
+                </TouchableOpacity>
+
+                {/* Dropdown Menu */}
+                {showEntriesDropdown && (
+                  <>
+                    <TouchableOpacity
+                      style={styles.dropdownBackdrop}
+                      activeOpacity={1}
+                      onPress={() => setShowEntriesDropdown(false)}
+                    />
+                    <View
+                      style={[
+                        styles.dropdownMenu,
+                        {
+                          backgroundColor: colors.cardBackground,
+                          borderColor: colors.border,
+                        },
+                      ]}
+                    >
+                      {[10, 25, 50, 100].map((value) => (
+                        <TouchableOpacity
+                          key={value}
+                          style={[
+                            styles.dropdownItem,
+                            entriesPerPage === value &&
+                              styles.dropdownItemActive,
+                            { borderBottomColor: colors.border },
+                          ]}
+                          onPress={() => {
+                            setEntriesPerPage(value);
+                            setShowEntriesDropdown(false);
+                          }}
+                        >
+                          <Text
+                            style={[
+                              styles.dropdownItemText,
+                              { color: colors.text },
+                              entriesPerPage === value &&
+                                styles.dropdownItemTextActive,
+                            ]}
+                          >
+                            {value}
+                          </Text>
+                          {entriesPerPage === value && (
+                            <Text style={styles.dropdownItemCheck}>✓</Text>
+                          )}
+                        </TouchableOpacity>
+                      ))}
+                    </View>
+                  </>
+                )}
+              </View>
               <Text style={[styles.controlLabel, { color: colors.text }]}>
                 entries
               </Text>
@@ -297,79 +479,43 @@ const LeadsManagementScreen: React.FC = () => {
             />
           </View>
 
-          {/* Table */}
-          <View style={styles.tableContainer}>
-            {/* Table Header */}
-            <View
-              style={[
-                styles.tableHeader,
-                { backgroundColor: colors.tableHeader },
-              ]}
-            >
-              <Text style={[styles.tableHeaderCell, styles.colNo]}>NO.</Text>
-              <Text style={[styles.tableHeaderCell, styles.colSchool]}>
-                SCHOOL NAME
-              </Text>
-              <Text style={[styles.tableHeaderCell, styles.colAddress]}>
-                ADDRESS
-              </Text>
-              <Text style={[styles.tableHeaderCell, styles.colStatus]}>
-                STATUS
-              </Text>
-              <Text style={[styles.tableHeaderCell, styles.colAction]}>
-                ACTION
-              </Text>
-            </View>
-
-            {/* Table Body */}
-            {filteredLeads.length === 0 ? (
+          {/* Leads Cards */}
+          <View style={styles.cardsContainer}>
+            {paginatedLeads.length === 0 ? (
               <View style={styles.emptyState}>
+                <Text style={styles.emptyStateIcon}>📂</Text>
+                <Text style={[styles.emptyStateTitle, { color: colors.text }]}>
+                  No Leads Found
+                </Text>
                 <Text
                   style={[
                     styles.emptyStateText,
                     { color: colors.textSecondary },
                   ]}
                 >
-                  No data available in table
+                  No leads available in the system yet.{"\n"}
+                  Click "Add New Lead" to create your first lead.
                 </Text>
               </View>
             ) : (
-              filteredLeads.map((lead, index) => (
+              paginatedLeads.map((lead, index) => (
                 <View
                   key={lead.id}
                   style={[
-                    styles.tableRow,
-                    { borderBottomColor: colors.border },
+                    styles.leadCard,
+                    {
+                      backgroundColor: colors.cardBackground,
+                      borderColor: colors.border,
+                    },
                   ]}
                 >
-                  <Text
-                    style={[
-                      styles.tableCell,
-                      styles.colNo,
-                      { color: colors.text },
-                    ]}
-                  >
-                    {index + 1}
-                  </Text>
-                  <Text
-                    style={[
-                      styles.tableCell,
-                      styles.colSchool,
-                      { color: colors.text },
-                    ]}
-                  >
-                    {lead.schoolName}
-                  </Text>
-                  <Text
-                    style={[
-                      styles.tableCell,
-                      styles.colAddress,
-                      { color: colors.text },
-                    ]}
-                  >
-                    {lead.address}
-                  </Text>
-                  <View style={[styles.tableCell, styles.colStatus]}>
+                  {/* Card Header */}
+                  <View style={styles.leadCardHeader}>
+                    <View style={styles.leadNumberBadge}>
+                      <Text style={styles.leadNumberText}>
+                        #{startIndex + index + 1}
+                      </Text>
+                    </View>
                     <View
                       style={[
                         styles.statusBadge,
@@ -379,9 +525,52 @@ const LeadsManagementScreen: React.FC = () => {
                       <Text style={styles.statusText}>{lead.status}</Text>
                     </View>
                   </View>
-                  <View style={[styles.tableCell, styles.colAction]}>
-                    <TouchableOpacity style={styles.actionButton}>
-                      <Text style={styles.actionButtonText}>⋮</Text>
+
+                  {/* School Name */}
+                  <Text style={[styles.leadSchoolName, { color: colors.text }]}>
+                    {lead.schoolName}
+                  </Text>
+
+                  {/* Address */}
+                  <View style={styles.leadInfoRow}>
+                    <Text style={styles.leadInfoIcon}>📍</Text>
+                    <Text
+                      style={[
+                        styles.leadInfoText,
+                        { color: colors.textSecondary },
+                      ]}
+                    >
+                      {lead.address}
+                    </Text>
+                  </View>
+
+                  {/* Actions */}
+                  <View style={styles.leadCardActions}>
+                    <TouchableOpacity
+                      style={[
+                        styles.leadActionButton,
+                        { backgroundColor: colors.primary },
+                      ]}
+                    >
+                      <Text style={styles.leadActionButtonText}>
+                        View Details
+                      </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={[
+                        styles.leadActionButton,
+                        styles.leadActionButtonSecondary,
+                        { borderColor: colors.border },
+                      ]}
+                    >
+                      <Text
+                        style={[
+                          styles.leadActionButtonTextSecondary,
+                          { color: colors.text },
+                        ]}
+                      >
+                        Edit
+                      </Text>
                     </TouchableOpacity>
                   </View>
                 </View>
@@ -392,19 +581,31 @@ const LeadsManagementScreen: React.FC = () => {
           {/* Footer */}
           <View style={styles.tableFooter}>
             <Text style={[styles.footerText, { color: colors.textSecondary }]}>
-              Showing 0 to 0 of 0 entries
+              Showing {filteredLeads.length === 0 ? 0 : startIndex + 1} to{" "}
+              {Math.min(endIndex, filteredLeads.length)} of{" "}
+              {filteredLeads.length} entries
             </Text>
             <View style={styles.pagination}>
               <TouchableOpacity
                 style={[
                   styles.paginationButton,
-                  { backgroundColor: colors.border },
+                  {
+                    backgroundColor:
+                      currentPage === 1 ? colors.border : colors.primary,
+                  },
                 ]}
+                onPress={() =>
+                  currentPage > 1 && setCurrentPage(currentPage - 1)
+                }
+                disabled={currentPage === 1}
               >
                 <Text
                   style={[
                     styles.paginationButtonText,
-                    { color: colors.textSecondary },
+                    {
+                      color:
+                        currentPage === 1 ? colors.textSecondary : "#ffffff",
+                    },
                   ]}
                 >
                   ‹
@@ -413,13 +614,27 @@ const LeadsManagementScreen: React.FC = () => {
               <TouchableOpacity
                 style={[
                   styles.paginationButton,
-                  { backgroundColor: colors.border },
+                  {
+                    backgroundColor:
+                      currentPage === totalPages
+                        ? colors.border
+                        : colors.primary,
+                  },
                 ]}
+                onPress={() =>
+                  currentPage < totalPages && setCurrentPage(currentPage + 1)
+                }
+                disabled={currentPage === totalPages}
               >
                 <Text
                   style={[
                     styles.paginationButtonText,
-                    { color: colors.textSecondary },
+                    {
+                      color:
+                        currentPage === totalPages
+                          ? colors.textSecondary
+                          : "#ffffff",
+                    },
                   ]}
                 >
                   ›
@@ -430,76 +645,19 @@ const LeadsManagementScreen: React.FC = () => {
         </View>
       </ScrollView>
 
-      {/* Notifications Modal */}
-      <Modal
-        visible={notificationsVisible}
-        transparent
-        animationType="fade"
-        onRequestClose={() => setNotificationsVisible(false)}
-      >
-        <View style={styles.notificationsModalOverlay}>
-          <TouchableOpacity
-            style={styles.notificationsBackdrop}
-            activeOpacity={1}
-            onPress={() => setNotificationsVisible(false)}
-          />
-          <View
-            style={[
-              styles.notificationsModal,
-              { backgroundColor: colors.cardBackground },
-            ]}
-          >
-            <View
-              style={[
-                styles.notificationsHeader,
-                { borderBottomColor: colors.border },
-              ]}
-            >
-              <View>
-                <Text
-                  style={[styles.notificationsTitle, { color: colors.text }]}
-                >
-                  Notifications
-                </Text>
-              </View>
-              <TouchableOpacity
-                onPress={() => setNotificationsVisible(false)}
-                style={styles.closeNotificationsButton}
-              >
-                <Text
-                  style={[
-                    styles.closeNotificationsText,
-                    { color: colors.textSecondary },
-                  ]}
-                >
-                  ✕
-                </Text>
-              </TouchableOpacity>
-            </View>
-
-            <View style={styles.emptyNotifications}>
-              <Text style={styles.emptyNotificationsIcon}>🔔</Text>
-              <Text
-                style={[
-                  styles.emptyNotificationsText,
-                  { color: colors.textSecondary },
-                ]}
-              >
-                No notifications yet
-              </Text>
-            </View>
-          </View>
-        </View>
-      </Modal>
-
       {/* Add Lead Modal */}
       <Modal
         visible={showAddLeadModal}
         transparent
-        animationType="slide"
+        animationType="fade"
         onRequestClose={() => setShowAddLeadModal(false)}
       >
         <View style={styles.modalOverlay}>
+          <TouchableOpacity
+            style={styles.modalBackdrop}
+            activeOpacity={1}
+            onPress={() => setShowAddLeadModal(false)}
+          />
           <View
             style={[
               styles.addLeadModal,
@@ -735,6 +893,11 @@ const LeadsManagementScreen: React.FC = () => {
         onRequestClose={() => setShowConfirmModal(false)}
       >
         <View style={styles.confirmOverlay}>
+          <TouchableOpacity
+            style={styles.modalBackdrop}
+            activeOpacity={1}
+            onPress={() => setShowConfirmModal(false)}
+          />
           <View
             style={[
               styles.confirmModal,
@@ -900,19 +1063,20 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    padding: 16,
   },
   titleSection: {
     flexDirection: "row",
     alignItems: "flex-start",
     marginBottom: 20,
+    paddingHorizontal: 16,
     gap: 12,
   },
   pageIcon: {
     fontSize: 28,
-    marginTop: 4,
+    marginTop: 30,
   },
   pageTitle: {
+    marginTop: 30,
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 4,
@@ -921,14 +1085,14 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   card: {
-    borderRadius: 12,
+    borderRadius: 0,
     overflow: "hidden",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 8,
     elevation: 3,
-    marginBottom: 20,
+    marginBottom: 0,
   },
   cardHeader: {
     flexDirection: "row",
@@ -973,6 +1137,9 @@ const styles = StyleSheet.create({
   controlLabel: {
     fontSize: 14,
   },
+  dropdownWrapper: {
+    position: "relative",
+  },
   entriesDropdown: {
     flexDirection: "row",
     alignItems: "center",
@@ -990,6 +1157,51 @@ const styles = StyleSheet.create({
     fontSize: 10,
     color: "#999",
   },
+  dropdownBackdrop: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 998,
+  },
+  dropdownMenu: {
+    position: "absolute",
+    top: 40,
+    left: 0,
+    minWidth: 80,
+    borderRadius: 8,
+    borderWidth: 1,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 5,
+    zIndex: 999,
+  },
+  dropdownItem: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+  },
+  dropdownItemActive: {
+    backgroundColor: "rgba(108, 92, 231, 0.1)",
+  },
+  dropdownItemText: {
+    fontSize: 14,
+  },
+  dropdownItemTextActive: {
+    fontWeight: "600",
+    color: "#6c5ce7",
+  },
+  dropdownItemCheck: {
+    fontSize: 14,
+    color: "#6c5ce7",
+    fontWeight: "bold",
+  },
   searchInput: {
     borderWidth: 1,
     borderRadius: 8,
@@ -997,68 +1209,109 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     fontSize: 14,
   },
-  tableContainer: {
+  cardsContainer: {
     paddingHorizontal: 16,
+    paddingBottom: 16,
+    gap: 12,
   },
-  tableHeader: {
+  leadCard: {
+    borderRadius: 12,
+    borderWidth: 1,
+    padding: 16,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  leadCardHeader: {
     flexDirection: "row",
-    paddingVertical: 12,
-    paddingHorizontal: 8,
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 12,
   },
-  tableHeaderCell: {
-    color: "#ffffff",
-    fontSize: 11,
-    fontWeight: "bold",
-    textTransform: "uppercase",
-  },
-  tableRow: {
-    flexDirection: "row",
-    paddingVertical: 12,
-    paddingHorizontal: 8,
-    borderBottomWidth: 1,
-  },
-  tableCell: {
-    fontSize: 13,
-  },
-  colNo: {
-    width: 40,
-  },
-  colSchool: {
-    flex: 2,
-  },
-  colAddress: {
-    flex: 2,
-  },
-  colStatus: {
-    flex: 1,
-  },
-  colAction: {
-    width: 40,
-  },
-  statusBadge: {
-    paddingHorizontal: 8,
+  leadNumberBadge: {
+    backgroundColor: "#48cae4",
+    paddingHorizontal: 10,
     paddingVertical: 4,
     borderRadius: 12,
-    alignSelf: "flex-start",
+  },
+  leadNumberText: {
+    color: "#ffffff",
+    fontSize: 12,
+    fontWeight: "700",
+  },
+  statusBadge: {
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 12,
   },
   statusText: {
     color: "#ffffff",
-    fontSize: 10,
+    fontSize: 11,
+    fontWeight: "600",
+    textTransform: "uppercase",
+  },
+  leadSchoolName: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 8,
+  },
+  leadInfoRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 16,
+    gap: 8,
+  },
+  leadInfoIcon: {
+    fontSize: 14,
+  },
+  leadInfoText: {
+    fontSize: 13,
+    flex: 1,
+  },
+  leadCardActions: {
+    flexDirection: "row",
+    gap: 8,
+  },
+  leadActionButton: {
+    flex: 1,
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  leadActionButtonSecondary: {
+    backgroundColor: "transparent",
+    borderWidth: 1,
+  },
+  leadActionButtonText: {
+    color: "#ffffff",
+    fontSize: 13,
     fontWeight: "600",
   },
-  actionButton: {
-    padding: 4,
-  },
-  actionButtonText: {
-    fontSize: 18,
-    color: "#6c757d",
+  leadActionButtonTextSecondary: {
+    fontSize: 13,
+    fontWeight: "600",
   },
   emptyState: {
-    paddingVertical: 40,
+    paddingVertical: 60,
     alignItems: "center",
+  },
+  emptyStateIcon: {
+    fontSize: 48,
+    marginBottom: 12,
+    opacity: 0.5,
+  },
+  emptyStateTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 8,
   },
   emptyStateText: {
     fontSize: 14,
+    textAlign: "center",
+    lineHeight: 20,
   },
   tableFooter: {
     flexDirection: "row",
@@ -1068,10 +1321,12 @@ const styles = StyleSheet.create({
   },
   footerText: {
     fontSize: 12,
+    paddingBottom: 40,
   },
   pagination: {
     flexDirection: "row",
     gap: 8,
+    paddingBottom: 40,
   },
   paginationButton: {
     width: 32,
@@ -1087,7 +1342,16 @@ const styles = StyleSheet.create({
   modalOverlay: {
     flex: 1,
     backgroundColor: "rgba(0, 0, 0, 0.5)",
-    justifyContent: "flex-end",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+  },
+  modalBackdrop: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
   notificationsModalOverlay: {
     flex: 1,
@@ -1146,10 +1410,14 @@ const styles = StyleSheet.create({
   },
   addLeadModal: {
     width: "100%",
-    maxHeight: "90%",
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    paddingBottom: 20,
+    maxWidth: 500,
+    maxHeight: "85%",
+    borderRadius: 16,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 8,
   },
   modalHeader: {
     flexDirection: "row",
@@ -1207,6 +1475,7 @@ const styles = StyleSheet.create({
     gap: 12,
     paddingHorizontal: 20,
     paddingTop: 20,
+    paddingBottom: 24,
   },
   cancelButton: {
     flex: 1,

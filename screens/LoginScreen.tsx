@@ -61,7 +61,7 @@ export default function LoginScreen() {
         {/* Back to Home */}
         <TouchableOpacity
           style={styles.backToHome}
-          onPress={() => router.back()}
+          onPress={() => router.push("/")}
         >
           <Text style={styles.backToHomeText}>← Back to Home</Text>
         </TouchableOpacity>
@@ -202,20 +202,20 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     flexGrow: 1,
-    justifyContent: "center",
-    paddingHorizontal: 20,
-    paddingTop: 80,
-    paddingBottom: 40,
+    justifyContent: "flex-start",
+    paddingTop: 0,
+    paddingBottom: 0,
   },
   card: {
     backgroundColor: "#ffffff",
-    borderRadius: 16,
     padding: 32,
+    paddingTop: 150,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.1,
     shadowRadius: 12,
     elevation: 5,
+    flex: 1,
   },
   logoContainer: {
     alignItems: "center",

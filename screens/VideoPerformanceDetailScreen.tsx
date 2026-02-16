@@ -1,12 +1,11 @@
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
-    Modal,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
 } from "react-native";
 import { useTheme } from "../app/contexts/ThemeContext";
 import BurgerMenu from "../components/BurgerMenu";
@@ -18,7 +17,6 @@ const VideoPerformanceDetailScreen: React.FC = () => {
   const [activeTimeFilter, setActiveTimeFilter] = useState<
     "7days" | "30days" | "alltime"
   >("7days");
-  const [notificationsVisible, setNotificationsVisible] = useState(false);
   const [profileDropdownVisible, setProfileDropdownVisible] = useState(false);
 
   const colors = {
@@ -114,7 +112,7 @@ const VideoPerformanceDetailScreen: React.FC = () => {
         <View style={styles.headerRight}>
           <TouchableOpacity
             style={[styles.iconButton, { backgroundColor: colors.border }]}
-            onPress={() => setNotificationsVisible(true)}
+            onPress={() => router.push("/NotificationsScreen")}
           >
             <Text style={styles.icon}>🔔</Text>
           </TouchableOpacity>
@@ -207,59 +205,6 @@ const VideoPerformanceDetailScreen: React.FC = () => {
           </View>
         </View>
       </ScrollView>
-
-      <Modal
-        visible={notificationsVisible}
-        transparent
-        animationType="fade"
-        onRequestClose={() => setNotificationsVisible(false)}
-      >
-        <View style={styles.notificationsModalOverlay}>
-          <TouchableOpacity
-            style={styles.notificationsBackdrop}
-            activeOpacity={1}
-            onPress={() => setNotificationsVisible(false)}
-          />
-          <View
-            style={[
-              styles.notificationsModal,
-              { backgroundColor: colors.cardBackground },
-            ]}
-          >
-            <View
-              style={[
-                styles.notificationsHeader,
-                { borderBottomColor: colors.border },
-              ]}
-            >
-              <Text style={[styles.notificationsTitle, { color: colors.text }]}>
-                Notifications
-              </Text>
-              <TouchableOpacity onPress={() => setNotificationsVisible(false)}>
-                <Text
-                  style={[
-                    styles.closeNotificationsText,
-                    { color: colors.textSecondary },
-                  ]}
-                >
-                  ✕
-                </Text>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.emptyNotifications}>
-              <Text style={styles.emptyNotificationsIcon}>🔔</Text>
-              <Text
-                style={[
-                  styles.emptyNotificationsText,
-                  { color: colors.textSecondary },
-                ]}
-              >
-                No notifications yet
-              </Text>
-            </View>
-          </View>
-        </View>
-      </Modal>
     </View>
   );
 };

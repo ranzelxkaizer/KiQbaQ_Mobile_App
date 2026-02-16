@@ -1,13 +1,13 @@
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
-    Modal,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  Modal,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { useTheme } from "../app/contexts/ThemeContext";
 import BurgerMenu from "../components/BurgerMenu";
@@ -64,7 +64,6 @@ const AgentSchedulesScreen: React.FC = () => {
   const [entriesPerPage, setEntriesPerPage] = useState(10);
   const [showFilterDropdown, setShowFilterDropdown] = useState(false);
   const [showEntriesDropdown, setShowEntriesDropdown] = useState(false);
-  const [notificationsVisible, setNotificationsVisible] = useState(false);
   const [profileDropdownVisible, setProfileDropdownVisible] = useState(false);
   const [showAddScheduleModal, setShowAddScheduleModal] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -119,7 +118,7 @@ const AgentSchedulesScreen: React.FC = () => {
 
   const handleLogout = () => {
     router.dismissAll();
-    router.replace("/");
+    router.replace("/LandingPage");
   };
 
   const handleMyProfile = () => {
@@ -651,7 +650,7 @@ const AgentSchedulesScreen: React.FC = () => {
         <View style={styles.headerRight}>
           <TouchableOpacity
             style={[styles.iconButton, { backgroundColor: colors.border }]}
-            onPress={() => setNotificationsVisible(true)}
+            onPress={() => router.push("/NotificationsScreen")}
           >
             <Text style={styles.icon}>🔔</Text>
           </TouchableOpacity>
@@ -1185,76 +1184,19 @@ const AgentSchedulesScreen: React.FC = () => {
         )}
       </ScrollView>
 
-      {/* Notifications Modal */}
-      <Modal
-        visible={notificationsVisible}
-        transparent
-        animationType="fade"
-        onRequestClose={() => setNotificationsVisible(false)}
-      >
-        <View style={styles.notificationsModalOverlay}>
-          <TouchableOpacity
-            style={styles.notificationsBackdrop}
-            activeOpacity={1}
-            onPress={() => setNotificationsVisible(false)}
-          />
-          <View
-            style={[
-              styles.notificationsModal,
-              { backgroundColor: colors.cardBackground },
-            ]}
-          >
-            <View
-              style={[
-                styles.notificationsHeader,
-                { borderBottomColor: colors.border },
-              ]}
-            >
-              <View>
-                <Text
-                  style={[styles.notificationsTitle, { color: colors.text }]}
-                >
-                  Notifications
-                </Text>
-              </View>
-              <TouchableOpacity
-                onPress={() => setNotificationsVisible(false)}
-                style={styles.closeNotificationsButton}
-              >
-                <Text
-                  style={[
-                    styles.closeNotificationsText,
-                    { color: colors.textSecondary },
-                  ]}
-                >
-                  ✕
-                </Text>
-              </TouchableOpacity>
-            </View>
-
-            <View style={styles.emptyNotifications}>
-              <Text style={styles.emptyNotificationsIcon}>🔔</Text>
-              <Text
-                style={[
-                  styles.emptyNotificationsText,
-                  { color: colors.textSecondary },
-                ]}
-              >
-                No notifications yet
-              </Text>
-            </View>
-          </View>
-        </View>
-      </Modal>
-
       {/* Add Schedule Modal */}
       <Modal
         visible={showAddScheduleModal}
         transparent
-        animationType="slide"
+        animationType="fade"
         onRequestClose={() => setShowAddScheduleModal(false)}
       >
         <View style={styles.modalOverlay}>
+          <TouchableOpacity
+            style={styles.modalBackdrop}
+            activeOpacity={1}
+            onPress={() => setShowAddScheduleModal(false)}
+          />
           <View
             style={[
               styles.addScheduleModal,
@@ -1954,41 +1896,41 @@ const AgentSchedulesScreen: React.FC = () => {
                   />
                 </View>
               </View>
+            </ScrollView>
 
-              {/* Modal Footer */}
-              <View style={styles.addScheduleModalFooter}>
-                <TouchableOpacity
+            {/* Modal Footer - Fixed at bottom */}
+            <View style={styles.addScheduleModalFooter}>
+              <TouchableOpacity
+                style={[
+                  styles.addScheduleCancelButton,
+                  {
+                    backgroundColor: isDarkMode ? "#404040" : "#e9ecef",
+                  },
+                ]}
+                onPress={() => setShowAddScheduleModal(false)}
+              >
+                <Text
                   style={[
-                    styles.addScheduleCancelButton,
+                    styles.addScheduleCancelButtonText,
                     {
-                      backgroundColor: isDarkMode ? "#404040" : "#e9ecef",
+                      color: isDarkMode ? "#ffffff" : "#6c757d",
                     },
                   ]}
-                  onPress={() => setShowAddScheduleModal(false)}
                 >
-                  <Text
-                    style={[
-                      styles.addScheduleCancelButtonText,
-                      {
-                        color: isDarkMode ? "#ffffff" : "#6c757d",
-                      },
-                    ]}
-                  >
-                    Cancel
-                  </Text>
-                </TouchableOpacity>
+                  Cancel
+                </Text>
+              </TouchableOpacity>
 
-                <TouchableOpacity
-                  style={[
-                    styles.addScheduleSaveButton,
-                    { backgroundColor: colors.primary },
-                  ]}
-                  onPress={handleScheduleSave}
-                >
-                  <Text style={styles.addScheduleSaveButtonText}>Save</Text>
-                </TouchableOpacity>
-              </View>
-            </ScrollView>
+              <TouchableOpacity
+                style={[
+                  styles.addScheduleSaveButton,
+                  { backgroundColor: colors.primary },
+                ]}
+                onPress={handleScheduleSave}
+              >
+                <Text style={styles.addScheduleSaveButtonText}>Save</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </Modal>
@@ -2427,28 +2369,29 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    padding: 16,
   },
   titleSection: {
     flexDirection: "row",
     alignItems: "flex-start",
     marginBottom: 20,
+    paddingHorizontal: 16,
     gap: 12,
   },
   pageIcon: {
     fontSize: 28,
-    marginTop: 4,
+    marginTop: 30,
   },
   pageTitle: {
     fontSize: 24,
     fontWeight: "bold",
+    marginTop: 30,
     marginBottom: 4,
   },
   pageSubtitle: {
     fontSize: 14,
   },
   headerCard: {
-    borderRadius: 12,
+    borderRadius: 0,
     padding: 16,
     marginBottom: 20,
     flexDirection: "row",
@@ -2661,10 +2604,12 @@ const styles = StyleSheet.create({
   },
   footerText: {
     fontSize: 12,
+    paddingBottom: 40,
   },
   pagination: {
     flexDirection: "row",
     gap: 8,
+    paddingBottom: 40,
   },
   paginationButton: {
     width: 32,
@@ -2678,14 +2623,14 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   calendarCard: {
-    borderRadius: 12,
+    borderRadius: 0,
     overflow: "hidden",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 8,
     elevation: 3,
-    marginBottom: 20,
+    marginBottom: 0,
   },
   calendarHeader: {
     padding: 16,
@@ -2879,14 +2824,27 @@ const styles = StyleSheet.create({
   modalOverlay: {
     flex: 1,
     backgroundColor: "rgba(0, 0, 0, 0.5)",
-    justifyContent: "flex-end",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+  },
+  modalBackdrop: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
   addScheduleModal: {
     width: "100%",
-    maxHeight: "90%",
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    paddingBottom: 20,
+    maxWidth: 500,
+    maxHeight: "85%",
+    borderRadius: 16,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 8,
   },
   addScheduleFormContent: {
     padding: 20,
@@ -2967,6 +2925,9 @@ const styles = StyleSheet.create({
     gap: 12,
     paddingHorizontal: 20,
     paddingTop: 20,
+    paddingBottom: 24,
+    borderTopWidth: 1,
+    borderTopColor: "#e9ecef",
   },
   dropdownMenu: {
     position: "absolute",

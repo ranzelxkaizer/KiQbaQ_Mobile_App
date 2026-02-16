@@ -140,6 +140,15 @@ const BurgerMenu: React.FC<BurgerMenuProps> = ({
         case "analytics":
           router.push("/DemoAnalyticsScreen");
           break;
+        case "incentive":
+          router.push("/IncentiveTrackingScreen");
+          break;
+        case "performance":
+          router.push("/PerformanceBenchmarkingScreen");
+          break;
+        case "resource":
+          router.push("/ResourceCenterScreen");
+          break;
         // Add more routes as you create pages
         default:
           console.log(`Navigating to ${item.label} - page not yet created`);
@@ -383,9 +392,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 20,
     paddingHorizontal: 20,
-    borderTopWidth: 1,
-    borderTopColor: "rgba(0, 0, 0, 0.1)",
     gap: 12,
+    paddingBottom: 55,
   },
   darkModeIcon: {
     fontSize: 20,
