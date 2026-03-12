@@ -61,7 +61,7 @@ export default function LoginScreen() {
         {/* Back to Home */}
         <TouchableOpacity
           style={styles.backToHome}
-          onPress={() => router.push("/")}
+          onPress={() => router.push("/LandingPage")}
         >
           <Text style={styles.backToHomeText}>← Back to Home</Text>
         </TouchableOpacity>

@@ -63,7 +63,7 @@ const DemoAnalyticsScreen: React.FC = () => {
 
   const handleLogout = () => {
     router.dismissAll();
-    router.replace("/LandingPage");
+    router.replace("/");
   };
 
   const handleMyProfile = () => {
@@ -175,9 +175,9 @@ const DemoAnalyticsScreen: React.FC = () => {
       )}
 
       {/* Header */}
-      <View style={[styles.header, { backgroundColor: colors.headerBg }]}>
+      <View style={[styles.header, { backgroundColor: "#6c5ce7" }]}>
         <View style={styles.burgerButtonSpace} />
-
+        <Text style={styles.headerTitle}>Demo Analytics</Text>
         <View style={styles.headerRight}>
           <TouchableOpacity
             style={[styles.iconButton, { backgroundColor: colors.border }]}
@@ -582,6 +582,11 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
   },
+  headerTitle: {
+    fontSize: 30,
+    fontWeight: "bold",
+    color: "#ffffff",
+  },
   headerRight: {
     flexDirection: "row",
     gap: 8,
@@ -652,19 +657,23 @@ const styles = StyleSheet.create({
   profileMenuItem: {
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: 10,
+    padding: 14,
+    gap: 12,
+  },
+  profileMenuItemLast: {
+    borderTopWidth: 0,
   },
   profileMenuIcon: {
     fontSize: 18,
-    marginRight: 12,
-    width: 24,
   },
   profileMenuText: {
     fontSize: 14,
+    fontWeight: "500",
   },
   content: {
     flex: 1,
     padding: 16,
+    paddingBottom: 96, // 16 + 80 for navigation buttons
   },
   pageHeaderCard: {
     borderRadius: 12,

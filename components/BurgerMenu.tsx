@@ -53,7 +53,7 @@ const BurgerMenu: React.FC<BurgerMenuProps> = ({
     menuText: isDarkMode ? "#ffffff" : "#495057",
     menuItemActive: isDarkMode ? "#3d3d3d" : "#f0f0f5",
     overlay: "rgba(0, 0, 0, 0.5)",
-    headerBg: "#6c5ce7",
+    headerBg: "#4A90D9",
     border: isDarkMode ? "#404040" : "#e9ecef",
   };
 

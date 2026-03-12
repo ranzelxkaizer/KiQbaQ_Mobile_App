@@ -53,7 +53,7 @@ const Dashboard: React.FC<DashboardProps> = () => {
 
   const handleLogout = () => {
     setProfileDropdownVisible(false);
-    // Navigate to root app/index.tsx
+    // Navigate to LandingPage.tsx (outside tabs)
     router.navigate("/LandingPage");
   };
 
@@ -131,7 +131,7 @@ const Dashboard: React.FC<DashboardProps> = () => {
     headerBg: isDarkMode ? "#2d2d2d" : "#ffffff",
     iconBg: isDarkMode ? "#404040" : "#f8f9fa",
     // Keep brand colors consistent
-    primary: "#6c5ce7",
+    primary: "#5BB8F5",
     secondary: "#48cae4", // Lighter teal for sub-tabs
     green: "#00b894",
     orange: "#fd9644",
@@ -144,11 +144,11 @@ const Dashboard: React.FC<DashboardProps> = () => {
       {/* BurgerMenu Component */}
       <BurgerMenu currentPage="Dashboard" />
 
-      {/* Header - Icons Only - Fixed at top */}
-      <View style={[styles.header, { backgroundColor: colors.headerBg }]}>
+      {/* Header - Clean Purple Design */}
+      <View style={[styles.header, { backgroundColor: "#4A90D9" }]}>
         <View style={styles.headerLeft}>
-          {/* Empty space for burger button alignment */}
           <View style={styles.burgerButtonSpace} />
+          <Text style={styles.headerTitle}>Dashboard</Text>
         </View>
         <View style={styles.headerIcons}>
           <TouchableOpacity
@@ -244,21 +244,6 @@ const Dashboard: React.FC<DashboardProps> = () => {
       <ScrollView
         style={[styles.scrollContainer, { backgroundColor: colors.background }]}
       >
-        {/* Page Title - In content area */}
-        <View style={styles.pageTitleContainer}>
-          <Text style={styles.pageTitleIcon}>📊</Text>
-          <View style={styles.pageTitleTextContainer}>
-            <Text style={[styles.pageTitle, { color: colors.text }]}>
-              Dashboard
-            </Text>
-            <Text
-              style={[styles.pageSubtitle, { color: colors.textSecondary }]}
-            >
-              Welcome back! Here's what's happening with your leads today.
-            </Text>
-          </View>
-        </View>
-
         {/* Budget Cards */}
         <View style={styles.budgetContainer}>
           <View style={[styles.budgetCard, { backgroundColor: colors.green }]}>
@@ -736,8 +721,14 @@ const styles = StyleSheet.create({
   },
   headerLeft: {
     flexDirection: "row",
-    alignItems: "flex-start",
+    alignItems: "center",
     flex: 1,
+  },
+  headerTitle: {
+    fontSize: 30,
+    fontWeight: "bold",
+    color: "#ffffff",
+    marginLeft: 3,
   },
   headerIcons: {
     flexDirection: "row",
@@ -751,6 +742,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   icon: {
+    color: "#6c5ce7",
     fontSize: 18,
   },
   // Page Title Section in content area
@@ -769,7 +761,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   pageTitle: {
-    fontSize: 24,
+    fontSize: 30,
     fontWeight: "bold",
     marginBottom: 4,
   },

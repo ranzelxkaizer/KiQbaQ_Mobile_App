@@ -8,8 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import BurgerMenu from "../components/BurgerMenu";
-import { useTheme } from "./contexts/ThemeContext";
+import { useTheme } from "../app/contexts/ThemeContext";
 
 interface Notification {
   id: string;
@@ -125,39 +124,16 @@ const NotificationsScreen: React.FC = () => {
     <SafeAreaView
       style={[styles.container, { backgroundColor: colors.background }]}
     >
-      {/* BurgerMenu Component */}
-      <BurgerMenu currentPage="Notifications" />
-
-      {/* Header - Icons Only */}
-      <View style={[styles.header, { backgroundColor: colors.headerBg }]}>
-        <View style={styles.headerLeft}>
-          <View style={styles.burgerButtonSpace} />
-        </View>
-        <View style={styles.headerIcons}>
-          <TouchableOpacity
-            style={[styles.iconButton, { backgroundColor: colors.iconBg }]}
-            onPress={() => router.back()}
-          >
-            <Text style={styles.icon}>←</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      {/* Page Title */}
-      <View style={styles.pageTitleContainer}>
-        <Text style={styles.pageTitleIcon}>🔔</Text>
-        <View style={styles.pageTitleTextContainer}>
-          <Text style={[styles.pageTitle, { color: colors.text }]}>
-            Notifications
-          </Text>
-          {unreadCount > 0 && (
-            <Text
-              style={[styles.unreadCountText, { color: colors.textSecondary }]}
-            >
-              {unreadCount} unread notification{unreadCount !== 1 ? "s" : ""}
-            </Text>
-          )}
-        </View>
+      {/* Header - Purple with Title and Back Button */}
+      <View style={[styles.header, { backgroundColor: "#6c5ce7" }]}>
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => router.back()}
+        >
+          <Text style={styles.backIcon}>←</Text>
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>Notifications</Text>
+        <View style={styles.headerRightSpace} />
       </View>
 
       <ScrollView
@@ -292,56 +268,39 @@ const styles = StyleSheet.create({
     paddingTop: 50,
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "flex-start",
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
-  headerLeft: {
-    flexDirection: "row",
-    alignItems: "flex-start",
-    flex: 1,
-  },
-  burgerButtonSpace: {
+  backButton: {
     width: 40,
     height: 40,
-    marginRight: 12,
-  },
-  headerIcons: {
-    flexDirection: "row",
-    gap: 10,
-  },
-  iconButton: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
+    borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
   },
-  icon: {
-    fontSize: 18,
+  backIcon: {
+    fontSize: 24,
+    color: "#ffffff",
+    fontWeight: "bold",
   },
-  pageTitleContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: 20,
-    paddingTop: 8,
-    paddingBottom: 20,
-    gap: 12,
-  },
-  pageTitleIcon: {
-    fontSize: 32,
-  },
-  pageTitleTextContainer: {
-    flex: 1,
-  },
-  pageTitle: {
+  headerTitle: {
     fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 4,
+    color: "#ffffff",
+    flex: 1,
+    textAlign: "center",
   },
-  unreadCountText: {
-    fontSize: 13,
+  headerRightSpace: {
+    width: 40,
   },
   actionButtonsContainer: {
     flexDirection: "row",
+    paddingTop: 20,
     paddingHorizontal: 16,
     gap: 12,
     marginBottom: 16,

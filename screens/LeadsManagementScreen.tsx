@@ -248,7 +248,7 @@ const LeadsManagementScreen: React.FC = () => {
 
   const handleLogout = () => {
     router.dismissAll();
-    router.replace("/LandingPage");
+    router.replace("/");
   };
 
   const handleMyProfile = () => {
@@ -332,10 +332,12 @@ const LeadsManagementScreen: React.FC = () => {
         </>
       )}
 
-      {/* Header */}
-      <View style={[styles.header, { backgroundColor: colors.headerBg }]}>
-        {/* Empty space for burger button alignment */}
-        <View style={styles.burgerButtonSpace} />
+      {/* Header - Clean Purple Design */}
+      <View style={[styles.header, { backgroundColor: "#6c5ce7" }]}>
+        <View style={styles.headerLeft}>
+          <View style={styles.burgerButtonSpace} />
+          <Text style={styles.headerTitle}>Leads Management</Text>
+        </View>
 
         <View style={styles.headerRight}>
           <TouchableOpacity
@@ -355,36 +357,20 @@ const LeadsManagementScreen: React.FC = () => {
       </View>
 
       <ScrollView style={styles.content}>
-        {/* Page Title */}
-        <View style={styles.titleSection}>
-          <Text style={[styles.pageIcon, { color: colors.text }]}>📁</Text>
-          <View>
-            <Text style={[styles.pageTitle, { color: colors.text }]}>
-              Leads Management
-            </Text>
-            <Text
-              style={[styles.pageSubtitle, { color: colors.textSecondary }]}
-            >
-              Manage and track all your leads in one place.
-            </Text>
+        {/* Floating Header Card - All Leads Title */}
+        <View
+          style={[styles.headerCard, { backgroundColor: colors.gradient1 }]}
+        >
+          <View style={styles.cardHeaderLeft}>
+            <Text style={styles.cardHeaderTitle}>All Leads</Text>
           </View>
+          <TouchableOpacity style={styles.addButton} onPress={handleAddLead}>
+            <Text style={styles.addButtonText}>⊕ Add New Lead</Text>
+          </TouchableOpacity>
         </View>
 
-        {/* Leads Card */}
+        {/* Content Card - Leads List */}
         <View style={[styles.card, { backgroundColor: colors.cardBackground }]}>
-          {/* Card Header */}
-          <View
-            style={[styles.cardHeader, { backgroundColor: colors.gradient1 }]}
-          >
-            <View style={styles.cardHeaderLeft}>
-              <Text style={styles.cardHeaderIcon}>☰</Text>
-              <Text style={styles.cardHeaderTitle}>All Leads</Text>
-            </View>
-            <TouchableOpacity style={styles.addButton} onPress={handleAddLead}>
-              <Text style={styles.addButtonText}>⊕ Add New Lead</Text>
-            </TouchableOpacity>
-          </View>
-
           {/* Controls */}
           <View style={styles.controlsContainer}>
             <View style={styles.entriesControl}>
@@ -981,6 +967,17 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
   },
+  headerLeft: {
+    flexDirection: "row",
+    alignItems: "center",
+    flex: 1,
+  },
+  headerTitle: {
+    fontSize: 26,
+    fontWeight: "bold",
+    color: "#ffffff",
+    marginLeft: 12,
+  },
   headerRight: {
     flexDirection: "row",
     gap: 8,
@@ -1051,18 +1048,22 @@ const styles = StyleSheet.create({
   profileMenuItem: {
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: 10,
+    padding: 14,
+    gap: 12,
+  },
+  profileMenuItemLast: {
+    borderTopWidth: 0,
   },
   profileMenuIcon: {
     fontSize: 18,
-    marginRight: 12,
-    width: 24,
   },
   profileMenuText: {
     fontSize: 14,
+    fontWeight: "500",
   },
   content: {
     flex: 1,
+    paddingBottom: 80, // Space for navigation buttons
   },
   titleSection: {
     flexDirection: "row",
@@ -1073,10 +1074,9 @@ const styles = StyleSheet.create({
   },
   pageIcon: {
     fontSize: 28,
-    marginTop: 30,
+    marginTop: 4,
   },
   pageTitle: {
-    marginTop: 30,
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 4,
@@ -1085,14 +1085,28 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   card: {
-    borderRadius: 0,
     overflow: "hidden",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 8,
     elevation: 3,
-    marginBottom: 0,
+    marginBottom: 16,
+  },
+  headerCard: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: 16,
+    marginHorizontal: 16,
+    marginTop: 16,
+    marginBottom: 12,
+    borderRadius: 16,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+    elevation: 4,
   },
   cardHeader: {
     flexDirection: "row",
@@ -1321,12 +1335,10 @@ const styles = StyleSheet.create({
   },
   footerText: {
     fontSize: 12,
-    paddingBottom: 40,
   },
   pagination: {
     flexDirection: "row",
     gap: 8,
-    paddingBottom: 40,
   },
   paginationButton: {
     width: 32,

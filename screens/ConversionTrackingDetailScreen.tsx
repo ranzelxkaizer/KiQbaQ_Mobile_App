@@ -8,7 +8,6 @@ import {
   View,
 } from "react-native";
 import { useTheme } from "../app/contexts/ThemeContext";
-import BurgerMenu from "../components/BurgerMenu";
 
 const ConversionTrackingDetailScreen: React.FC = () => {
   const router = useRouter();
@@ -17,7 +16,6 @@ const ConversionTrackingDetailScreen: React.FC = () => {
   const [activeTimeFilter, setActiveTimeFilter] = useState<
     "7days" | "30days" | "alltime"
   >("7days");
-  const [profileDropdownVisible, setProfileDropdownVisible] = useState(false);
 
   const colors = {
     background: isDarkMode ? "#1a1a1a" : "#f8f9fa",
@@ -29,101 +27,22 @@ const ConversionTrackingDetailScreen: React.FC = () => {
     primary: "#6c5ce7",
   };
 
-  const userData = {
-    name: "Ranzel Jude",
-    role: "Agent",
-    avatar: "👤",
-  };
-
-  const handleLogout = () => {
-    router.dismissAll();
-    router.replace("/");
-  };
-
-  const handleMyProfile = () => {
-    router.push("/ProfileScreen");
-  };
-
   const handleBackToAnalytics = () => {
     router.back();
   };
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <BurgerMenu currentPage="Demo Analytics" />
-
-      {profileDropdownVisible && (
-        <>
-          <TouchableOpacity
-            style={styles.profileDropdownBackdrop}
-            onPress={() => setProfileDropdownVisible(false)}
-          />
-          <View
-            style={[
-              styles.profileDropdown,
-              {
-                backgroundColor: colors.cardBackground,
-                borderColor: colors.border,
-              },
-            ]}
-          >
-            <View style={styles.profileDropdownHeader}>
-              <View style={styles.profileAvatar}>
-                <Text style={styles.profileAvatarText}>{userData.avatar}</Text>
-              </View>
-              <View style={styles.profileInfo}>
-                <Text style={[styles.profileName, { color: colors.text }]}>
-                  {userData.name}
-                </Text>
-                <Text
-                  style={[styles.profileRole, { color: colors.textSecondary }]}
-                >
-                  {userData.role}
-                </Text>
-              </View>
-            </View>
-
-            <TouchableOpacity
-              style={styles.profileMenuItem}
-              onPress={handleMyProfile}
-            >
-              <Text style={styles.profileMenuIcon}>👤</Text>
-              <Text style={[styles.profileMenuText, { color: colors.text }]}>
-                My Profile
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.profileMenuItem}
-              onPress={handleLogout}
-            >
-              <Text style={styles.profileMenuIcon}>🚪</Text>
-              <Text style={[styles.profileMenuText, { color: colors.text }]}>
-                Log Out
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </>
-      )}
-
-      <View style={[styles.header, { backgroundColor: colors.headerBg }]}>
-        <View style={styles.burgerButtonSpace} />
-
-        <View style={styles.headerRight}>
-          <TouchableOpacity
-            style={[styles.iconButton, { backgroundColor: colors.border }]}
-            onPress={() => router.push("/NotificationsScreen")}
-          >
-            <Text style={styles.icon}>🔔</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.iconButton, { backgroundColor: colors.border }]}
-            onPress={() => setProfileDropdownVisible(!profileDropdownVisible)}
-          >
-            <Text style={styles.icon}>👤</Text>
-          </TouchableOpacity>
-        </View>
+      {/* Header - Purple with Back Button */}
+      <View style={[styles.header, { backgroundColor: "#6c5ce7" }]}>
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => router.back()}
+        >
+          <Text style={styles.backIcon}>←</Text>
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>Conversion Tracking</Text>
+        <View style={styles.headerRightSpace} />
       </View>
 
       <ScrollView style={styles.content}>
@@ -139,14 +58,6 @@ const ConversionTrackingDetailScreen: React.FC = () => {
               </Text>
             </View>
           </View>
-
-          <TouchableOpacity
-            style={styles.backButton}
-            onPress={handleBackToAnalytics}
-          >
-            <Text style={styles.backButtonIcon}>←</Text>
-            <Text style={styles.backButtonText}>Back to Analytics</Text>
-          </TouchableOpacity>
         </View>
 
         {/* Stats Grid */}
@@ -306,79 +217,41 @@ const ConversionTrackingDetailScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: { flex: 1 },
   header: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingHorizontal: 16,
+    padding: 20,
     paddingTop: 50,
-    paddingBottom: 16,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
+    zIndex: 10,
   },
-  burgerButtonSpace: { width: 40, height: 40 },
-  headerRight: { flexDirection: "row", gap: 8 },
-  iconButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+  backButton: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
   },
-  icon: { fontSize: 20 },
-  profileDropdownBackdrop: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    zIndex: 1002,
+  backIcon: {
+    fontSize: 20,
+    color: "#ffffff",
+    fontWeight: "bold",
   },
-  profileDropdown: {
-    position: "absolute",
-    top: 95,
-    right: 16,
-    width: 220,
-    borderRadius: 12,
-    borderWidth: 1,
-    padding: 12,
-    zIndex: 1003,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.15,
-    shadowRadius: 8,
-    elevation: 5,
+  headerTitle: {
+    fontSize: 30,
+    fontWeight: "600",
+    color: "#ffffff",
+    flex: 1,
+    textAlign: "center",
   },
-  profileDropdownHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingBottom: 12,
-    marginBottom: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: "#e9ecef",
+  headerRightSpace: {
+    width: 36,
   },
-  profileAvatar: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: "#6c5ce7",
-    alignItems: "center",
-    justifyContent: "center",
-    marginRight: 12,
-  },
-  profileAvatarText: { fontSize: 20 },
-  profileInfo: { flex: 1 },
-  profileName: { fontSize: 14, fontWeight: "bold" },
-  profileRole: { fontSize: 12 },
-  profileMenuItem: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingVertical: 10,
-  },
-  profileMenuIcon: { fontSize: 18, marginRight: 12, width: 24 },
-  profileMenuText: { fontSize: 14 },
   content: { flex: 1, padding: 16 },
   pageHeaderCard: { borderRadius: 12, padding: 20, marginBottom: 20 },
   pageHeaderContent: {
@@ -400,7 +273,7 @@ const styles = StyleSheet.create({
     color: "rgba(255, 255, 255, 0.9)",
     lineHeight: 18,
   },
-  backButton: {
+  backToAnalyticsButton: {
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "rgba(255, 255, 255, 0.2)",
@@ -410,8 +283,12 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start",
     gap: 6,
   },
-  backButtonIcon: { color: "#ffffff", fontSize: 18 },
-  backButtonText: { color: "#ffffff", fontSize: 13, fontWeight: "600" },
+  backToAnalyticsButtonIcon: { color: "#ffffff", fontSize: 18 },
+  backToAnalyticsButtonText: {
+    color: "#ffffff",
+    fontSize: 13,
+    fontWeight: "600",
+  },
   statsGrid: { gap: 12, marginBottom: 20 },
   statCard: {
     borderRadius: 12,
@@ -466,47 +343,6 @@ const styles = StyleSheet.create({
   emptyStateIcon: { fontSize: 64, marginBottom: 16 },
   emptyStateTitle: { fontSize: 18, fontWeight: "bold", marginBottom: 8 },
   emptyStateText: { fontSize: 14, textAlign: "center" },
-  notificationsModalOverlay: {
-    flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  notificationsBackdrop: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-  },
-  notificationsModal: {
-    width: "90%",
-    maxWidth: 400,
-    maxHeight: "70%",
-    borderRadius: 16,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 8,
-  },
-  notificationsHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: 20,
-    paddingBottom: 16,
-    borderBottomWidth: 1,
-  },
-  notificationsTitle: { fontSize: 20, fontWeight: "bold" },
-  closeNotificationsText: { fontSize: 24, fontWeight: "300" },
-  emptyNotifications: {
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: 60,
-  },
-  emptyNotificationsIcon: { fontSize: 48, marginBottom: 12 },
-  emptyNotificationsText: { fontSize: 14 },
 });
 
 export default ConversionTrackingDetailScreen;

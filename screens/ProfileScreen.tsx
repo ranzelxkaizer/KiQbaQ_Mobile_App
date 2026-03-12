@@ -6,10 +6,9 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
 import { useTheme } from "../app/contexts/ThemeContext";
-import BurgerMenu from "../components/BurgerMenu";
 
 type TabType = "account" | "user" | "bank";
 
@@ -75,17 +74,18 @@ const ProfileScreen: React.FC = () => {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      {/* BurgerMenu - Render at top level for proper z-index */}
-      <BurgerMenu currentPage="My Profile" />
-
-      {/* Header */}
-      <View style={[styles.header, { backgroundColor: colors.cardBackground }]}>
-        {/* Empty space for burger button alignment */}
-        <View style={styles.burgerButtonSpace} />
-
-        <Text style={[styles.headerTitle, { color: colors.text }]}>
-          My Profile
-        </Text>
+      {/* Header - Purple with Title and Back Button */}
+      <View style={[styles.header, { backgroundColor: "#6c5ce7" }]}>
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => router.back()}
+        >
+          <Text style={styles.backIcon}>←</Text>
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>My Profile</Text>
+        <TouchableOpacity style={styles.themeButton} onPress={toggleDarkMode}>
+          <Text style={styles.themeIcon}>{isDarkMode ? "☀️" : "🌙"}</Text>
+        </TouchableOpacity>
       </View>
 
       {/* Tabs */}
@@ -865,7 +865,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingHorizontal: 16,
+    paddingHorizontal: 20,
     paddingTop: 50,
     paddingBottom: 16,
     shadowColor: "#000",
@@ -874,24 +874,35 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 3,
   },
-  burgerButtonSpace: {
-    width: 40,
-    height: 40,
-  },
-  headerTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
-    flex: 1,
-    textAlign: "center",
-  },
-  iconButton: {
+  backButton: {
     width: 40,
     height: 40,
     borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
   },
-  icon: {
+  backIcon: {
+    fontSize: 24,
+    color: "#ffffff",
+    fontWeight: "bold",
+  },
+  headerTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#ffffff",
+    flex: 1,
+    textAlign: "center",
+  },
+  themeButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
+  },
+  themeIcon: {
     fontSize: 20,
   },
   tabsContainer: {

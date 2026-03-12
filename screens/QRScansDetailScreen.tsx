@@ -8,7 +8,6 @@ import {
   View,
 } from "react-native";
 import { useTheme } from "../app/contexts/ThemeContext";
-import BurgerMenu from "../components/BurgerMenu";
 
 const QRScansDetailScreen: React.FC = () => {
   const router = useRouter();
@@ -50,83 +49,16 @@ const QRScansDetailScreen: React.FC = () => {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      {/* BurgerMenu */}
-      <BurgerMenu currentPage="Demo Analytics" />
-
-      {/* Profile Dropdown */}
-      {profileDropdownVisible && (
-        <>
-          <TouchableOpacity
-            style={styles.profileDropdownBackdrop}
-            onPress={() => setProfileDropdownVisible(false)}
-          />
-          <View
-            style={[
-              styles.profileDropdown,
-              {
-                backgroundColor: colors.cardBackground,
-                borderColor: colors.border,
-              },
-            ]}
-          >
-            <View style={styles.profileDropdownHeader}>
-              <View style={styles.profileAvatar}>
-                <Text style={styles.profileAvatarText}>{userData.avatar}</Text>
-              </View>
-              <View style={styles.profileInfo}>
-                <Text style={[styles.profileName, { color: colors.text }]}>
-                  {userData.name}
-                </Text>
-                <Text
-                  style={[styles.profileRole, { color: colors.textSecondary }]}
-                >
-                  {userData.role}
-                </Text>
-              </View>
-            </View>
-
-            <TouchableOpacity
-              style={styles.profileMenuItem}
-              onPress={handleMyProfile}
-            >
-              <Text style={styles.profileMenuIcon}>👤</Text>
-              <Text style={[styles.profileMenuText, { color: colors.text }]}>
-                My Profile
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.profileMenuItem}
-              onPress={handleLogout}
-            >
-              <Text style={styles.profileMenuIcon}>🚪</Text>
-              <Text style={[styles.profileMenuText, { color: colors.text }]}>
-                Log Out
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </>
-      )}
-
-      {/* Header */}
-      <View style={[styles.header, { backgroundColor: colors.headerBg }]}>
-        <View style={styles.burgerButtonSpace} />
-
-        <View style={styles.headerRight}>
-          <TouchableOpacity
-            style={[styles.iconButton, { backgroundColor: colors.border }]}
-            onPress={() => router.push("/NotificationsScreen")}
-          >
-            <Text style={styles.icon}>🔔</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.iconButton, { backgroundColor: colors.border }]}
-            onPress={() => setProfileDropdownVisible(!profileDropdownVisible)}
-          >
-            <Text style={styles.icon}>👤</Text>
-          </TouchableOpacity>
-        </View>
+      {/* Header - Purple with Back Button */}
+      <View style={[styles.header, { backgroundColor: "#6c5ce7" }]}>
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => router.back()}
+        >
+          <Text style={styles.backIcon}>←</Text>
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>QR Scans Detail</Text>
+        <View style={styles.headerRightSpace} />
       </View>
 
       <ScrollView style={styles.content}>
@@ -143,14 +75,6 @@ const QRScansDetailScreen: React.FC = () => {
               </Text>
             </View>
           </View>
-
-          <TouchableOpacity
-            style={styles.backButton}
-            onPress={handleBackToAnalytics}
-          >
-            <Text style={styles.backButtonIcon}>←</Text>
-            <Text style={styles.backButtonText}>Back to Analytics</Text>
-          </TouchableOpacity>
         </View>
 
         {/* Time Filter Tabs */}
@@ -277,9 +201,12 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 3,
   },
-  burgerButtonSpace: {
-    width: 40,
-    height: 40,
+  headerTitle: {
+    fontSize: 30,
+    fontWeight: "600",
+    color: "#ffffff",
+    flex: 1,
+    textAlign: "center",
   },
   headerRight: {
     flexDirection: "row",
@@ -291,9 +218,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
-  },
-  icon: {
-    fontSize: 20,
   },
   profileDropdownBackdrop: {
     position: "absolute",
@@ -394,18 +318,16 @@ const styles = StyleSheet.create({
     lineHeight: 18,
   },
   backButton: {
-    flexDirection: "row",
+    width: 36,
+    height: 36,
+    borderRadius: 18,
     alignItems: "center",
+    justifyContent: "center",
     backgroundColor: "rgba(255, 255, 255, 0.2)",
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    borderRadius: 8,
-    alignSelf: "flex-start",
-    gap: 6,
   },
   backButtonIcon: {
     color: "#ffffff",
-    fontSize: 18,
+    fontSize: 35,
   },
   backButtonText: {
     color: "#ffffff",

@@ -148,7 +148,7 @@ const BudgetManagementScreen: React.FC = () => {
 
   const handleLogout = () => {
     router.dismissAll();
-    router.replace("/LandingPage");
+    router.replace("/");
   };
 
   const handleMyProfile = () => {
@@ -440,10 +440,9 @@ const BudgetManagementScreen: React.FC = () => {
       )}
 
       {/* Header */}
-      <View style={[styles.header, { backgroundColor: colors.headerBg }]}>
-        {/* Empty space for burger button alignment */}
+      <View style={[styles.header, { backgroundColor: "#6c5ce7" }]}>
         <View style={styles.burgerButtonSpace} />
-
+        <Text style={styles.headerTitle}>Budget Management</Text>
         <View style={styles.headerRight}>
           <TouchableOpacity
             style={[styles.iconButton, { backgroundColor: colors.border }]}
@@ -462,24 +461,12 @@ const BudgetManagementScreen: React.FC = () => {
       </View>
 
       <ScrollView style={styles.content}>
-        {/* Page Title */}
-        <View style={styles.titleSection}>
-          <Text style={[styles.pageIcon, { color: colors.text }]}>💰</Text>
-          <View>
-            <Text style={[styles.pageTitle, { color: colors.text }]}>
-              Budget Management
-            </Text>
-            <Text
-              style={[styles.pageSubtitle, { color: colors.textSecondary }]}
-            >
-              Manage your budget requests and track expenses.
-            </Text>
-          </View>
-        </View>
-
-        {/* Budget vs Expenses Overview Card */}
+        {/* Floating Header Card - Budget vs Expenses Overview */}
         <View
-          style={[styles.overviewCard, { backgroundColor: colors.gradient1 }]}
+          style={[
+            styles.overviewHeaderCard,
+            { backgroundColor: colors.gradient1 },
+          ]}
         >
           <View style={styles.overviewHeader}>
             <Text style={styles.overviewIcon}>📊</Text>
@@ -524,395 +511,766 @@ const BudgetManagementScreen: React.FC = () => {
           </View>
         </View>
 
-        {/* Tabs */}
-        <View style={styles.tabsContainer}>
-          <TouchableOpacity
-            style={[
-              styles.tab,
-              activeTab === "myBudget" && styles.tabActive,
-              {
-                borderBottomColor:
-                  activeTab === "myBudget" ? colors.primary : "transparent",
-              },
-            ]}
-            onPress={() => setActiveTab("myBudget")}
-          >
-            <Text
+        {/* Content Area - Tabs and Cards */}
+        <View>
+          {/* Tabs */}
+          <View style={styles.tabsContainer}>
+            <TouchableOpacity
               style={[
-                styles.tabIcon,
-                activeTab === "myBudget" && { color: colors.primary },
-              ]}
-            >
-              📋
-            </Text>
-            <Text
-              style={[
-                styles.tabText,
+                styles.tab,
+                activeTab === "myBudget" && styles.tabActive,
                 {
-                  color:
-                    activeTab === "myBudget"
-                      ? colors.primary
-                      : colors.textSecondary,
+                  borderBottomColor:
+                    activeTab === "myBudget" ? colors.primary : "transparent",
                 },
               ]}
+              onPress={() => setActiveTab("myBudget")}
             >
-              My Budget
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[
-              styles.tab,
-              activeTab === "expenses" && styles.tabActive,
-              {
-                borderBottomColor:
-                  activeTab === "expenses" ? colors.primary : "transparent",
-              },
-            ]}
-            onPress={() => setActiveTab("expenses")}
-          >
-            <Text
-              style={[
-                styles.tabIcon,
-                activeTab === "expenses" && { color: colors.primary },
-              ]}
-            >
-              💸
-            </Text>
-            <Text
-              style={[
-                styles.tabText,
-                {
-                  color:
-                    activeTab === "expenses"
-                      ? colors.primary
-                      : colors.textSecondary,
-                },
-              ]}
-            >
-              Expenses
-            </Text>
-          </TouchableOpacity>
-        </View>
-
-        {/* My Budget Tab Content */}
-        {activeTab === "myBudget" && (
-          <>
-            {/* Budget Summary Cards */}
-            <View style={styles.summaryCards}>
-              <View
+              <Text
                 style={[
-                  styles.summaryCard,
+                  styles.tabIcon,
+                  activeTab === "myBudget" && { color: colors.primary },
+                ]}
+              >
+                📋
+              </Text>
+              <Text
+                style={[
+                  styles.tabText,
                   {
-                    backgroundColor: colors.cardBackground,
-                    borderLeftColor: colors.primary,
+                    color:
+                      activeTab === "myBudget"
+                        ? colors.primary
+                        : colors.textSecondary,
                   },
                 ]}
               >
-                <Text
-                  style={[styles.summaryLabel, { color: colors.textSecondary }]}
-                >
-                  CURRENT BUDGET (APPROVED)
-                </Text>
-                <Text style={[styles.summaryValue, { color: colors.primary }]}>
-                  ₱{currentBudget.toFixed(2)}
-                </Text>
-              </View>
+                My Budget
+              </Text>
+            </TouchableOpacity>
 
-              <View
+            <TouchableOpacity
+              style={[
+                styles.tab,
+                activeTab === "expenses" && styles.tabActive,
+                {
+                  borderBottomColor:
+                    activeTab === "expenses" ? colors.primary : "transparent",
+                },
+              ]}
+              onPress={() => setActiveTab("expenses")}
+            >
+              <Text
                 style={[
-                  styles.summaryCard,
+                  styles.tabIcon,
+                  activeTab === "expenses" && { color: colors.primary },
+                ]}
+              >
+                💸
+              </Text>
+              <Text
+                style={[
+                  styles.tabText,
                   {
-                    backgroundColor: colors.cardBackground,
-                    borderLeftColor: colors.warning,
+                    color:
+                      activeTab === "expenses"
+                        ? colors.primary
+                        : colors.textSecondary,
                   },
                 ]}
               >
-                <Text
-                  style={[styles.summaryLabel, { color: colors.textSecondary }]}
-                >
-                  PENDING BUDGET REQUESTS
-                </Text>
-                <Text style={[styles.summaryValue, { color: colors.warning }]}>
-                  {pendingRequests}
-                </Text>
-              </View>
-            </View>
+                Expenses
+              </Text>
+            </TouchableOpacity>
+          </View>
 
-            {/* Budget Requests Section */}
-            <View
-              style={[
-                styles.requestsCard,
-                { backgroundColor: colors.cardBackground },
-              ]}
-            >
-              <View style={styles.requestsHeader}>
-                <Text style={[styles.requestsTitle, { color: colors.text }]}>
-                  Budget Requests
-                </Text>
-                <View style={styles.requestsActions}>
-                  <View>
+          {/* My Budget Tab Content */}
+          {activeTab === "myBudget" && (
+            <>
+              {/* Budget Summary Cards */}
+              <View style={styles.summaryCards}>
+                <View
+                  style={[
+                    styles.summaryCard,
+                    {
+                      backgroundColor: colors.cardBackground,
+                      borderLeftColor: colors.primary,
+                    },
+                  ]}
+                >
+                  <Text
+                    style={[
+                      styles.summaryLabel,
+                      { color: colors.textSecondary },
+                    ]}
+                  >
+                    CURRENT BUDGET (APPROVED)
+                  </Text>
+                  <Text
+                    style={[styles.summaryValue, { color: colors.primary }]}
+                  >
+                    ₱{currentBudget.toFixed(2)}
+                  </Text>
+                </View>
+
+                <View
+                  style={[
+                    styles.summaryCard,
+                    {
+                      backgroundColor: colors.cardBackground,
+                      borderLeftColor: colors.warning,
+                    },
+                  ]}
+                >
+                  <Text
+                    style={[
+                      styles.summaryLabel,
+                      { color: colors.textSecondary },
+                    ]}
+                  >
+                    PENDING BUDGET REQUESTS
+                  </Text>
+                  <Text
+                    style={[styles.summaryValue, { color: colors.warning }]}
+                  >
+                    {pendingRequests}
+                  </Text>
+                </View>
+              </View>
+
+              {/* Budget Requests Section */}
+              <View
+                style={[
+                  styles.requestsCard,
+                  { backgroundColor: colors.cardBackground },
+                ]}
+              >
+                <View style={styles.requestsHeader}>
+                  <Text style={[styles.requestsTitle, { color: colors.text }]}>
+                    Budget Requests
+                  </Text>
+                  <View style={styles.requestsActions}>
+                    <View>
+                      <TouchableOpacity
+                        style={[
+                          styles.exportButtonSmall,
+                          { borderColor: colors.border },
+                        ]}
+                        onPress={() =>
+                          setShowExportDropdown(!showExportDropdown)
+                        }
+                      >
+                        <Text
+                          style={[
+                            styles.exportButtonTextSmall,
+                            { color: colors.textSecondary },
+                          ]}
+                        >
+                          Export
+                        </Text>
+                        <Text
+                          style={[
+                            styles.exportDropdownArrow,
+                            { color: colors.textSecondary },
+                          ]}
+                        >
+                          ▼
+                        </Text>
+                      </TouchableOpacity>
+
+                      {/* Export Dropdown Menu */}
+                      {showExportDropdown && (
+                        <View
+                          style={[
+                            styles.exportDropdownMenu,
+                            {
+                              backgroundColor: colors.cardBackground,
+                              borderColor: colors.border,
+                            },
+                          ]}
+                        >
+                          <TouchableOpacity
+                            style={styles.exportMenuItem}
+                            onPress={() => handleExport("Print")}
+                          >
+                            <Text
+                              style={[
+                                styles.exportMenuText,
+                                { color: colors.text },
+                              ]}
+                            >
+                              Print
+                            </Text>
+                          </TouchableOpacity>
+                          <TouchableOpacity
+                            style={styles.exportMenuItem}
+                            onPress={() => handleExport("CSV")}
+                          >
+                            <Text
+                              style={[
+                                styles.exportMenuText,
+                                { color: colors.text },
+                              ]}
+                            >
+                              CSV
+                            </Text>
+                          </TouchableOpacity>
+                          <TouchableOpacity
+                            style={styles.exportMenuItem}
+                            onPress={() => handleExport("Excel")}
+                          >
+                            <Text
+                              style={[
+                                styles.exportMenuText,
+                                { color: colors.text },
+                              ]}
+                            >
+                              Excel
+                            </Text>
+                          </TouchableOpacity>
+                          <TouchableOpacity
+                            style={styles.exportMenuItem}
+                            onPress={() => handleExport("PDF")}
+                          >
+                            <Text
+                              style={[
+                                styles.exportMenuText,
+                                { color: colors.text },
+                              ]}
+                            >
+                              PDF
+                            </Text>
+                          </TouchableOpacity>
+                          <TouchableOpacity
+                            style={styles.exportMenuItem}
+                            onPress={() => handleExport("Copy")}
+                          >
+                            <Text
+                              style={[
+                                styles.exportMenuText,
+                                { color: colors.text },
+                              ]}
+                            >
+                              Copy
+                            </Text>
+                          </TouchableOpacity>
+                        </View>
+                      )}
+                    </View>
+
                     <TouchableOpacity
                       style={[
-                        styles.exportButtonSmall,
-                        { borderColor: colors.border },
+                        styles.addButtonSmall,
+                        { backgroundColor: colors.primary },
                       ]}
-                      onPress={() => setShowExportDropdown(!showExportDropdown)}
+                      onPress={() => setShowAddRequestModal(true)}
                     >
-                      <Text
-                        style={[
-                          styles.exportButtonTextSmall,
-                          { color: colors.textSecondary },
-                        ]}
-                      >
-                        Export
-                      </Text>
-                      <Text
-                        style={[
-                          styles.exportDropdownArrow,
-                          { color: colors.textSecondary },
-                        ]}
-                      >
-                        ▼
+                      <Text style={styles.addButtonTextSmall}>+ Add</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+
+                {/* Search and Filter */}
+                <View style={styles.requestsControls}>
+                  <TextInput
+                    style={[
+                      styles.searchInputFull,
+                      {
+                        backgroundColor: colors.background,
+                        color: colors.text,
+                        borderColor: colors.border,
+                      },
+                    ]}
+                    placeholder="Search requests..."
+                    placeholderTextColor={colors.textSecondary}
+                    value={searchQuery}
+                    onChangeText={setSearchQuery}
+                  />
+                </View>
+
+                {/* Request Cards List */}
+                {filteredRequests.length === 0 ? (
+                  <View style={styles.emptyRequestsState}>
+                    <Text style={styles.emptyRequestsIcon}>📋</Text>
+                    <Text
+                      style={[
+                        styles.emptyRequestsText,
+                        { color: colors.textSecondary },
+                      ]}
+                    >
+                      No budget requests yet
+                    </Text>
+                    <TouchableOpacity
+                      style={[
+                        styles.emptyAddButton,
+                        { backgroundColor: colors.primary },
+                      ]}
+                      onPress={() => setShowAddRequestModal(true)}
+                    >
+                      <Text style={styles.emptyAddButtonText}>
+                        + Add Your First Request
                       </Text>
                     </TouchableOpacity>
-
-                    {/* Export Dropdown Menu */}
-                    {showExportDropdown && (
+                  </View>
+                ) : (
+                  <View style={styles.requestsList}>
+                    {filteredRequests.map((request) => (
                       <View
+                        key={request.id}
                         style={[
-                          styles.exportDropdownMenu,
+                          styles.requestCard,
                           {
-                            backgroundColor: colors.cardBackground,
+                            backgroundColor: colors.background,
                             borderColor: colors.border,
                           },
                         ]}
                       >
-                        <TouchableOpacity
-                          style={styles.exportMenuItem}
-                          onPress={() => handleExport("Print")}
-                        >
-                          <Text
-                            style={[
-                              styles.exportMenuText,
-                              { color: colors.text },
-                            ]}
-                          >
-                            Print
-                          </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                          style={styles.exportMenuItem}
-                          onPress={() => handleExport("CSV")}
-                        >
-                          <Text
-                            style={[
-                              styles.exportMenuText,
-                              { color: colors.text },
-                            ]}
-                          >
-                            CSV
-                          </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                          style={styles.exportMenuItem}
-                          onPress={() => handleExport("Excel")}
-                        >
-                          <Text
-                            style={[
-                              styles.exportMenuText,
-                              { color: colors.text },
-                            ]}
-                          >
-                            Excel
-                          </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                          style={styles.exportMenuItem}
-                          onPress={() => handleExport("PDF")}
-                        >
-                          <Text
-                            style={[
-                              styles.exportMenuText,
-                              { color: colors.text },
-                            ]}
-                          >
-                            PDF
-                          </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                          style={styles.exportMenuItem}
-                          onPress={() => handleExport("Copy")}
-                        >
-                          <Text
-                            style={[
-                              styles.exportMenuText,
-                              { color: colors.text },
-                            ]}
-                          >
-                            Copy
-                          </Text>
-                        </TouchableOpacity>
+                        {/* Request Header */}
+                        <View style={styles.requestCardHeader}>
+                          <View style={styles.requestCardTitleSection}>
+                            <Text
+                              style={[
+                                styles.requestCardTitle,
+                                { color: colors.text },
+                              ]}
+                            >
+                              {request.requestTitle}
+                            </Text>
+                            <Text
+                              style={[
+                                styles.requestCardAgent,
+                                { color: colors.textSecondary },
+                              ]}
+                            >
+                              by {request.agent}
+                            </Text>
+                          </View>
+                          <TouchableOpacity style={styles.requestCardMenu}>
+                            <Text style={styles.requestCardMenuIcon}>⋮</Text>
+                          </TouchableOpacity>
+                        </View>
+
+                        {/* Request Details */}
+                        <View style={styles.requestCardBody}>
+                          <View style={styles.requestCardRow}>
+                            <View style={styles.requestCardField}>
+                              <Text
+                                style={[
+                                  styles.requestCardLabel,
+                                  { color: colors.textSecondary },
+                                ]}
+                              >
+                                Amount
+                              </Text>
+                              <Text
+                                style={[
+                                  styles.requestCardValue,
+                                  { color: colors.text },
+                                ]}
+                              >
+                                ₱{request.amount.toFixed(2)}
+                              </Text>
+                            </View>
+                            <View style={styles.requestCardField}>
+                              <Text
+                                style={[
+                                  styles.requestCardLabel,
+                                  { color: colors.textSecondary },
+                                ]}
+                              >
+                                Date
+                              </Text>
+                              <Text
+                                style={[
+                                  styles.requestCardValue,
+                                  { color: colors.text },
+                                ]}
+                              >
+                                {request.date}
+                              </Text>
+                            </View>
+                          </View>
+
+                          {/* Status Badge */}
+                          <View style={styles.requestCardFooter}>
+                            <View
+                              style={[
+                                styles.requestStatusBadge,
+                                {
+                                  backgroundColor: getStatusColor(
+                                    request.status,
+                                  ),
+                                },
+                              ]}
+                            >
+                              <Text style={styles.requestStatusText}>
+                                {request.status}
+                              </Text>
+                            </View>
+                          </View>
+                        </View>
                       </View>
-                    )}
+                    ))}
                   </View>
+                )}
 
-                  <TouchableOpacity
-                    style={[
-                      styles.addButtonSmall,
-                      { backgroundColor: colors.primary },
-                    ]}
-                    onPress={() => setShowAddRequestModal(true)}
-                  >
-                    <Text style={styles.addButtonTextSmall}>+ Add</Text>
-                  </TouchableOpacity>
-                </View>
+                {/* Show Entries Info */}
+                {filteredRequests.length > 0 && (
+                  <View style={styles.requestsFooter}>
+                    <Text
+                      style={[
+                        styles.requestsFooterText,
+                        { color: colors.textSecondary },
+                      ]}
+                    >
+                      Showing {filteredRequests.length} request
+                      {filteredRequests.length !== 1 ? "s" : ""}
+                    </Text>
+                  </View>
+                )}
               </View>
+            </>
+          )}
 
-              {/* Search and Filter */}
-              <View style={styles.requestsControls}>
-                <TextInput
+          {/* Expenses Tab Content */}
+          {activeTab === "expenses" && (
+            <>
+              {/* Expenses Summary Cards */}
+              <View style={styles.summaryCards}>
+                <View
                   style={[
-                    styles.searchInputFull,
+                    styles.summaryCard,
                     {
-                      backgroundColor: colors.background,
-                      color: colors.text,
-                      borderColor: colors.border,
+                      backgroundColor: colors.cardBackground,
+                      borderLeftColor: colors.warning,
                     },
                   ]}
-                  placeholder="Search requests..."
-                  placeholderTextColor={colors.textSecondary}
-                  value={searchQuery}
-                  onChangeText={setSearchQuery}
-                />
-              </View>
-
-              {/* Request Cards List */}
-              {filteredRequests.length === 0 ? (
-                <View style={styles.emptyRequestsState}>
-                  <Text style={styles.emptyRequestsIcon}>📋</Text>
+                >
                   <Text
                     style={[
-                      styles.emptyRequestsText,
+                      styles.summaryLabel,
                       { color: colors.textSecondary },
                     ]}
                   >
-                    No budget requests yet
+                    PENDING EXPENSES
                   </Text>
-                  <TouchableOpacity
-                    style={[
-                      styles.emptyAddButton,
-                      { backgroundColor: colors.primary },
-                    ]}
-                    onPress={() => setShowAddRequestModal(true)}
+                  <Text
+                    style={[styles.summaryValue, { color: colors.warning }]}
                   >
-                    <Text style={styles.emptyAddButtonText}>
-                      + Add Your First Request
-                    </Text>
-                  </TouchableOpacity>
+                    {expenses.filter((e) => e.status === "Pending").length}
+                  </Text>
                 </View>
-              ) : (
-                <View style={styles.requestsList}>
-                  {filteredRequests.map((request) => (
-                    <View
-                      key={request.id}
+
+                <View
+                  style={[
+                    styles.summaryCard,
+                    {
+                      backgroundColor: colors.cardBackground,
+                      borderLeftColor: "#00d4aa",
+                    },
+                  ]}
+                >
+                  <Text
+                    style={[
+                      styles.summaryLabel,
+                      { color: colors.textSecondary },
+                    ]}
+                  >
+                    SETTLED EXPENSES
+                  </Text>
+                  <Text style={[styles.summaryValue, { color: "#00d4aa" }]}>
+                    {expenses.filter((e) => e.status === "Settled").length}
+                  </Text>
+                </View>
+
+                <View
+                  style={[
+                    styles.summaryCard,
+                    {
+                      backgroundColor: colors.cardBackground,
+                      borderLeftColor: colors.danger,
+                    },
+                  ]}
+                >
+                  <Text
+                    style={[
+                      styles.summaryLabel,
+                      { color: colors.textSecondary },
+                    ]}
+                  >
+                    PENDING REIMBURSEMENTS
+                  </Text>
+                  <Text style={[styles.summaryValue, { color: colors.danger }]}>
+                    {expenses.filter((e) => e.status === "Reimbursed").length}
+                  </Text>
+                </View>
+              </View>
+              {/* Expenses Section */}
+              <View
+                style={[
+                  styles.requestsCard,
+                  { backgroundColor: colors.cardBackground },
+                ]}
+              >
+                <View style={styles.requestsHeader}>
+                  <Text style={[styles.requestsTitle, { color: colors.text }]}>
+                    Expenses
+                  </Text>
+                  <View style={styles.requestsActions}>
+                    <View>
+                      <TouchableOpacity
+                        style={[
+                          styles.exportButtonSmall,
+                          { borderColor: colors.border },
+                        ]}
+                        onPress={() =>
+                          setShowExpensesExportDropdown(
+                            !showExpensesExportDropdown,
+                          )
+                        }
+                      >
+                        <Text
+                          style={[
+                            styles.exportButtonTextSmall,
+                            { color: colors.textSecondary },
+                          ]}
+                        >
+                          Export
+                        </Text>
+                        <Text
+                          style={[
+                            styles.exportDropdownArrow,
+                            { color: colors.textSecondary },
+                          ]}
+                        >
+                          ▼
+                        </Text>
+                      </TouchableOpacity>
+
+                      {/* Export Dropdown Menu */}
+                      {showExpensesExportDropdown && (
+                        <View
+                          style={[
+                            styles.exportDropdownMenu,
+                            {
+                              backgroundColor: colors.cardBackground,
+                              borderColor: colors.border,
+                            },
+                          ]}
+                        >
+                          <TouchableOpacity
+                            style={styles.exportMenuItem}
+                            onPress={() => handleExport("Print")}
+                          >
+                            <Text
+                              style={[
+                                styles.exportMenuText,
+                                { color: colors.text },
+                              ]}
+                            >
+                              Print
+                            </Text>
+                          </TouchableOpacity>
+                          <TouchableOpacity
+                            style={styles.exportMenuItem}
+                            onPress={() => handleExport("CSV")}
+                          >
+                            <Text
+                              style={[
+                                styles.exportMenuText,
+                                { color: colors.text },
+                              ]}
+                            >
+                              CSV
+                            </Text>
+                          </TouchableOpacity>
+                          <TouchableOpacity
+                            style={styles.exportMenuItem}
+                            onPress={() => handleExport("Excel")}
+                          >
+                            <Text
+                              style={[
+                                styles.exportMenuText,
+                                { color: colors.text },
+                              ]}
+                            >
+                              Excel
+                            </Text>
+                          </TouchableOpacity>
+                          <TouchableOpacity
+                            style={styles.exportMenuItem}
+                            onPress={() => handleExport("PDF")}
+                          >
+                            <Text
+                              style={[
+                                styles.exportMenuText,
+                                { color: colors.text },
+                              ]}
+                            >
+                              PDF
+                            </Text>
+                          </TouchableOpacity>
+                          <TouchableOpacity
+                            style={styles.exportMenuItem}
+                            onPress={() => handleExport("Copy")}
+                          >
+                            <Text
+                              style={[
+                                styles.exportMenuText,
+                                { color: colors.text },
+                              ]}
+                            >
+                              Copy
+                            </Text>
+                          </TouchableOpacity>
+                        </View>
+                      )}
+                    </View>
+                  </View>
+                </View>
+
+                {/* Search */}
+                <View style={styles.requestsControls}>
+                  <TextInput
+                    style={[
+                      styles.searchInputFull,
+                      {
+                        backgroundColor: colors.background,
+                        color: colors.text,
+                        borderColor: colors.border,
+                      },
+                    ]}
+                    placeholder="Search expenses..."
+                    placeholderTextColor={colors.textSecondary}
+                    value={searchQuery}
+                    onChangeText={setSearchQuery}
+                  />
+                </View>
+
+                {/* Expenses Cards List */}
+                {expenses.length === 0 ? (
+                  <View style={styles.emptyRequestsState}>
+                    <Text style={styles.emptyRequestsIcon}>💸</Text>
+                    <Text
                       style={[
-                        styles.requestCard,
-                        {
-                          backgroundColor: colors.background,
-                          borderColor: colors.border,
-                        },
+                        styles.emptyRequestsText,
+                        { color: colors.textSecondary },
                       ]}
                     >
-                      {/* Request Header */}
-                      <View style={styles.requestCardHeader}>
-                        <View style={styles.requestCardTitleSection}>
-                          <Text
-                            style={[
-                              styles.requestCardTitle,
-                              { color: colors.text },
-                            ]}
-                          >
-                            {request.requestTitle}
-                          </Text>
-                          <Text
-                            style={[
-                              styles.requestCardAgent,
-                              { color: colors.textSecondary },
-                            ]}
-                          >
-                            by {request.agent}
-                          </Text>
-                        </View>
-                        <TouchableOpacity style={styles.requestCardMenu}>
-                          <Text style={styles.requestCardMenuIcon}>⋮</Text>
-                        </TouchableOpacity>
-                      </View>
-
-                      {/* Request Details */}
-                      <View style={styles.requestCardBody}>
-                        <View style={styles.requestCardRow}>
-                          <View style={styles.requestCardField}>
+                      No expenses recorded yet
+                    </Text>
+                    <Text
+                      style={[
+                        styles.emptyRequestsSubtext,
+                        { color: colors.textSecondary },
+                      ]}
+                    >
+                      Your expenses will appear here once logged
+                    </Text>
+                  </View>
+                ) : (
+                  <View style={styles.requestsList}>
+                    {expenses.map((expense) => (
+                      <View
+                        key={expense.id}
+                        style={[
+                          styles.requestCard,
+                          {
+                            backgroundColor: colors.background,
+                            borderColor: colors.border,
+                          },
+                        ]}
+                      >
+                        {/* Expense Header */}
+                        <View style={styles.requestCardHeader}>
+                          <View style={styles.requestCardTitleSection}>
                             <Text
                               style={[
-                                styles.requestCardLabel,
-                                { color: colors.textSecondary },
-                              ]}
-                            >
-                              Amount
-                            </Text>
-                            <Text
-                              style={[
-                                styles.requestCardValue,
+                                styles.requestCardTitle,
                                 { color: colors.text },
                               ]}
                             >
-                              ₱{request.amount.toFixed(2)}
+                              {expense.agent}
                             </Text>
-                          </View>
-                          <View style={styles.requestCardField}>
                             <Text
                               style={[
-                                styles.requestCardLabel,
+                                styles.requestCardAgent,
                                 { color: colors.textSecondary },
                               ]}
                             >
-                              Date
-                            </Text>
-                            <Text
-                              style={[
-                                styles.requestCardValue,
-                                { color: colors.text },
-                              ]}
-                            >
-                              {request.date}
+                              {expense.date}
                             </Text>
                           </View>
+                          <TouchableOpacity style={styles.requestCardMenu}>
+                            <Text style={styles.requestCardMenuIcon}>⋮</Text>
+                          </TouchableOpacity>
                         </View>
 
-                        {/* Status Badge */}
-                        <View style={styles.requestCardFooter}>
-                          <View
-                            style={[
-                              styles.requestStatusBadge,
-                              {
-                                backgroundColor: getStatusColor(request.status),
-                              },
-                            ]}
-                          >
-                            <Text style={styles.requestStatusText}>
-                              {request.status}
-                            </Text>
+                        {/* Expense Details */}
+                        <View style={styles.requestCardBody}>
+                          <View style={styles.requestCardRow}>
+                            <View style={styles.requestCardField}>
+                              <Text
+                                style={[
+                                  styles.requestCardLabel,
+                                  { color: colors.textSecondary },
+                                ]}
+                              >
+                                Expected
+                              </Text>
+                              <Text
+                                style={[
+                                  styles.requestCardValue,
+                                  { color: colors.text },
+                                ]}
+                              >
+                                ₱{expense.expected.toFixed(2)}
+                              </Text>
+                            </View>
+                            <View style={styles.requestCardField}>
+                              <Text
+                                style={[
+                                  styles.requestCardLabel,
+                                  { color: colors.textSecondary },
+                                ]}
+                              >
+                                Actual
+                              </Text>
+                              <Text
+                                style={[
+                                  styles.requestCardValue,
+                                  { color: colors.text },
+                                ]}
+                              >
+                                ₱{expense.actual.toFixed(2)}
+                              </Text>
+                            </View>
+                          </View>
+
+                          {/* Status Badge */}
+                          <View style={styles.requestCardFooter}>
+                            <View
+                              style={[
+                                styles.requestStatusBadge,
+                                {
+                                  backgroundColor: getExpenseStatusColor(
+                                    expense.status,
+                                  ),
+                                },
+                              ]}
+                            >
+                              <Text style={styles.requestStatusText}>
+                                {expense.status}
+                              </Text>
+                            </View>
                           </View>
                         </View>
                       </View>
-                    </View>
-                  ))}
-                </View>
-              )}
+                    ))}
+                  </View>
+                )}
 
-              {/* Show Entries Info */}
-              {filteredRequests.length > 0 && (
+                {/* Footer */}
                 <View style={styles.requestsFooter}>
                   <Text
                     style={[
@@ -920,376 +1278,14 @@ const BudgetManagementScreen: React.FC = () => {
                       { color: colors.textSecondary },
                     ]}
                   >
-                    Showing {filteredRequests.length} request
-                    {filteredRequests.length !== 1 ? "s" : ""}
+                    Showing {expenses.length} expense
+                    {expenses.length !== 1 ? "s" : ""}
                   </Text>
                 </View>
-              )}
-            </View>
-          </>
-        )}
-
-        {/* Expenses Tab Content */}
-        {activeTab === "expenses" && (
-          <>
-            {/* Expenses Summary Cards */}
-            <View style={styles.summaryCards}>
-              <View
-                style={[
-                  styles.summaryCard,
-                  {
-                    backgroundColor: colors.cardBackground,
-                    borderLeftColor: colors.warning,
-                  },
-                ]}
-              >
-                <Text
-                  style={[styles.summaryLabel, { color: colors.textSecondary }]}
-                >
-                  PENDING EXPENSES
-                </Text>
-                <Text style={[styles.summaryValue, { color: colors.warning }]}>
-                  {expenses.filter((e) => e.status === "Pending").length}
-                </Text>
               </View>
-
-              <View
-                style={[
-                  styles.summaryCard,
-                  {
-                    backgroundColor: colors.cardBackground,
-                    borderLeftColor: "#00d4aa",
-                  },
-                ]}
-              >
-                <Text
-                  style={[styles.summaryLabel, { color: colors.textSecondary }]}
-                >
-                  SETTLED EXPENSES
-                </Text>
-                <Text style={[styles.summaryValue, { color: "#00d4aa" }]}>
-                  {expenses.filter((e) => e.status === "Settled").length}
-                </Text>
-              </View>
-
-              <View
-                style={[
-                  styles.summaryCard,
-                  {
-                    backgroundColor: colors.cardBackground,
-                    borderLeftColor: colors.danger,
-                  },
-                ]}
-              >
-                <Text
-                  style={[styles.summaryLabel, { color: colors.textSecondary }]}
-                >
-                  PENDING REIMBURSEMENTS
-                </Text>
-                <Text style={[styles.summaryValue, { color: colors.danger }]}>
-                  {expenses.filter((e) => e.status === "Reimbursed").length}
-                </Text>
-              </View>
-            </View>
-
-            {/* Status Filter Dropdown */}
-            <View style={styles.filterContainer}>
-              <TouchableOpacity
-                style={[
-                  styles.statusFilterDropdown,
-                  {
-                    backgroundColor: colors.cardBackground,
-                    borderColor: colors.border,
-                  },
-                ]}
-              >
-                <Text style={[styles.filterText, { color: colors.text }]}>
-                  All Status
-                </Text>
-                <Text style={styles.dropdownArrow}>▼</Text>
-              </TouchableOpacity>
-            </View>
-
-            {/* Expenses Section */}
-            <View
-              style={[
-                styles.requestsCard,
-                { backgroundColor: colors.cardBackground },
-              ]}
-            >
-              <View style={styles.requestsHeader}>
-                <Text style={[styles.requestsTitle, { color: colors.text }]}>
-                  Expenses
-                </Text>
-                <View style={styles.requestsActions}>
-                  <View>
-                    <TouchableOpacity
-                      style={[
-                        styles.exportButtonSmall,
-                        { borderColor: colors.border },
-                      ]}
-                      onPress={() =>
-                        setShowExpensesExportDropdown(
-                          !showExpensesExportDropdown,
-                        )
-                      }
-                    >
-                      <Text
-                        style={[
-                          styles.exportButtonTextSmall,
-                          { color: colors.textSecondary },
-                        ]}
-                      >
-                        Export
-                      </Text>
-                      <Text
-                        style={[
-                          styles.exportDropdownArrow,
-                          { color: colors.textSecondary },
-                        ]}
-                      >
-                        ▼
-                      </Text>
-                    </TouchableOpacity>
-
-                    {/* Export Dropdown Menu */}
-                    {showExpensesExportDropdown && (
-                      <View
-                        style={[
-                          styles.exportDropdownMenu,
-                          {
-                            backgroundColor: colors.cardBackground,
-                            borderColor: colors.border,
-                          },
-                        ]}
-                      >
-                        <TouchableOpacity
-                          style={styles.exportMenuItem}
-                          onPress={() => handleExport("Print")}
-                        >
-                          <Text
-                            style={[
-                              styles.exportMenuText,
-                              { color: colors.text },
-                            ]}
-                          >
-                            Print
-                          </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                          style={styles.exportMenuItem}
-                          onPress={() => handleExport("CSV")}
-                        >
-                          <Text
-                            style={[
-                              styles.exportMenuText,
-                              { color: colors.text },
-                            ]}
-                          >
-                            CSV
-                          </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                          style={styles.exportMenuItem}
-                          onPress={() => handleExport("Excel")}
-                        >
-                          <Text
-                            style={[
-                              styles.exportMenuText,
-                              { color: colors.text },
-                            ]}
-                          >
-                            Excel
-                          </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                          style={styles.exportMenuItem}
-                          onPress={() => handleExport("PDF")}
-                        >
-                          <Text
-                            style={[
-                              styles.exportMenuText,
-                              { color: colors.text },
-                            ]}
-                          >
-                            PDF
-                          </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                          style={styles.exportMenuItem}
-                          onPress={() => handleExport("Copy")}
-                        >
-                          <Text
-                            style={[
-                              styles.exportMenuText,
-                              { color: colors.text },
-                            ]}
-                          >
-                            Copy
-                          </Text>
-                        </TouchableOpacity>
-                      </View>
-                    )}
-                  </View>
-                </View>
-              </View>
-
-              {/* Search */}
-              <View style={styles.requestsControls}>
-                <TextInput
-                  style={[
-                    styles.searchInputFull,
-                    {
-                      backgroundColor: colors.background,
-                      color: colors.text,
-                      borderColor: colors.border,
-                    },
-                  ]}
-                  placeholder="Search expenses..."
-                  placeholderTextColor={colors.textSecondary}
-                  value={searchQuery}
-                  onChangeText={setSearchQuery}
-                />
-              </View>
-
-              {/* Expenses Cards List */}
-              {expenses.length === 0 ? (
-                <View style={styles.emptyRequestsState}>
-                  <Text style={styles.emptyRequestsIcon}>💸</Text>
-                  <Text
-                    style={[
-                      styles.emptyRequestsText,
-                      { color: colors.textSecondary },
-                    ]}
-                  >
-                    No expenses recorded yet
-                  </Text>
-                  <Text
-                    style={[
-                      styles.emptyRequestsSubtext,
-                      { color: colors.textSecondary },
-                    ]}
-                  >
-                    Your expenses will appear here once logged
-                  </Text>
-                </View>
-              ) : (
-                <View style={styles.requestsList}>
-                  {expenses.map((expense) => (
-                    <View
-                      key={expense.id}
-                      style={[
-                        styles.requestCard,
-                        {
-                          backgroundColor: colors.background,
-                          borderColor: colors.border,
-                        },
-                      ]}
-                    >
-                      {/* Expense Header */}
-                      <View style={styles.requestCardHeader}>
-                        <View style={styles.requestCardTitleSection}>
-                          <Text
-                            style={[
-                              styles.requestCardTitle,
-                              { color: colors.text },
-                            ]}
-                          >
-                            {expense.agent}
-                          </Text>
-                          <Text
-                            style={[
-                              styles.requestCardAgent,
-                              { color: colors.textSecondary },
-                            ]}
-                          >
-                            {expense.date}
-                          </Text>
-                        </View>
-                        <TouchableOpacity style={styles.requestCardMenu}>
-                          <Text style={styles.requestCardMenuIcon}>⋮</Text>
-                        </TouchableOpacity>
-                      </View>
-
-                      {/* Expense Details */}
-                      <View style={styles.requestCardBody}>
-                        <View style={styles.requestCardRow}>
-                          <View style={styles.requestCardField}>
-                            <Text
-                              style={[
-                                styles.requestCardLabel,
-                                { color: colors.textSecondary },
-                              ]}
-                            >
-                              Expected
-                            </Text>
-                            <Text
-                              style={[
-                                styles.requestCardValue,
-                                { color: colors.text },
-                              ]}
-                            >
-                              ₱{expense.expected.toFixed(2)}
-                            </Text>
-                          </View>
-                          <View style={styles.requestCardField}>
-                            <Text
-                              style={[
-                                styles.requestCardLabel,
-                                { color: colors.textSecondary },
-                              ]}
-                            >
-                              Actual
-                            </Text>
-                            <Text
-                              style={[
-                                styles.requestCardValue,
-                                { color: colors.text },
-                              ]}
-                            >
-                              ₱{expense.actual.toFixed(2)}
-                            </Text>
-                          </View>
-                        </View>
-
-                        {/* Status Badge */}
-                        <View style={styles.requestCardFooter}>
-                          <View
-                            style={[
-                              styles.requestStatusBadge,
-                              {
-                                backgroundColor: getExpenseStatusColor(
-                                  expense.status,
-                                ),
-                              },
-                            ]}
-                          >
-                            <Text style={styles.requestStatusText}>
-                              {expense.status}
-                            </Text>
-                          </View>
-                        </View>
-                      </View>
-                    </View>
-                  ))}
-                </View>
-              )}
-
-              {/* Footer */}
-              <View style={styles.requestsFooter}>
-                <Text
-                  style={[
-                    styles.requestsFooterText,
-                    { color: colors.textSecondary },
-                  ]}
-                >
-                  Showing {expenses.length} expense
-                  {expenses.length !== 1 ? "s" : ""}
-                </Text>
-              </View>
-            </View>
-          </>
-        )}
+            </>
+          )}
+        </View>
       </ScrollView>
 
       {/* Add Budget Request Modal */}
@@ -1504,6 +1500,11 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
   },
+  headerTitle: {
+    fontSize: 25,
+    fontWeight: "bold",
+    color: "#ffffff",
+  },
   headerRight: {
     flexDirection: "row",
     gap: 8,
@@ -1574,18 +1575,22 @@ const styles = StyleSheet.create({
   profileMenuItem: {
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: 10,
+    padding: 14,
+    gap: 12,
+  },
+  profileMenuItemLast: {
+    borderTopWidth: 0,
   },
   profileMenuIcon: {
     fontSize: 18,
-    marginRight: 12,
-    width: 24,
   },
   profileMenuText: {
     fontSize: 14,
+    fontWeight: "500",
   },
   content: {
     flex: 1,
+    paddingBottom: 80, // Space for navigation buttons
   },
   titleSection: {
     flexDirection: "row",
@@ -1596,16 +1601,27 @@ const styles = StyleSheet.create({
   },
   pageIcon: {
     fontSize: 28,
-    marginTop: 30,
+    marginTop: 4,
   },
   pageTitle: {
     fontSize: 24,
     fontWeight: "bold",
-    marginTop: 30,
     marginBottom: 4,
   },
   pageSubtitle: {
     fontSize: 14,
+  },
+  overviewHeaderCard: {
+    borderRadius: 16,
+    padding: 16,
+    marginHorizontal: 16,
+    marginTop: 16,
+    marginBottom: 12,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+    elevation: 4,
   },
   overviewCard: {
     borderRadius: 0,
@@ -1623,7 +1639,7 @@ const styles = StyleSheet.create({
     color: "#ffffff",
   },
   overviewTitle: {
-    fontSize: 16,
+    fontSize: 22,
     fontWeight: "600",
     color: "#ffffff",
   },
@@ -1684,6 +1700,7 @@ const styles = StyleSheet.create({
   summaryCards: {
     gap: 16,
     marginBottom: 20,
+    marginHorizontal: 16,
   },
   summaryCard: {
     borderRadius: 12,
@@ -1706,14 +1723,14 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   requestsCard: {
-    borderRadius: 0,
+    borderRadius: 16,
     overflow: "hidden",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 8,
     elevation: 3,
-    marginBottom: 0,
+    marginBottom: 16,
   },
   requestsHeader: {
     flexDirection: "row",
@@ -1907,7 +1924,6 @@ const styles = StyleSheet.create({
   requestsFooterText: {
     fontSize: 12,
     textAlign: "center",
-    paddingBottom: 40,
   },
   tableCard: {
     borderRadius: 12,
@@ -2055,6 +2071,7 @@ const styles = StyleSheet.create({
   },
   filterContainer: {
     marginBottom: 20,
+    marginHorizontal: 16,
   },
   statusFilterDropdown: {
     flexDirection: "row",

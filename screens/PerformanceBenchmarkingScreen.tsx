@@ -55,16 +55,19 @@ const PerformanceBenchmarkingScreen = () => {
   const handleLogout = () => {
     setProfileDropdownVisible(false);
     router.dismissAll();
-    router.replace("/LandingPage");
+    router.replace("/");
   };
 
   return (
     <View style={styles.container}>
       <BurgerMenu currentPage="Performance Benchmarking" />
 
-      <View style={[styles.header, { backgroundColor: colors.headerBg }]}>
-        <View style={styles.headerLeft}>
-          <View style={styles.burgerButtonSpace} />
+      {/* Header */}
+      <View style={[styles.header, { backgroundColor: "#6c5ce7" }]}>
+        <View style={styles.burgerButtonSpace} />
+        <View style={styles.headerTitleContainer}>
+          <Text style={styles.headerTitle1}>Performance</Text>
+          <Text style={styles.headerTitle2}>Benchmarking</Text>
         </View>
         <View style={styles.headerIcons}>
           <TouchableOpacity
@@ -80,81 +83,6 @@ const PerformanceBenchmarkingScreen = () => {
             >
               <Text style={styles.icon}>👤</Text>
             </TouchableOpacity>
-
-            {profileDropdownVisible && (
-              <>
-                <TouchableOpacity
-                  style={styles.profileDropdownBackdropInline}
-                  activeOpacity={1}
-                  onPress={toggleProfileDropdown}
-                />
-                <View
-                  style={[
-                    styles.profileDropdown,
-                    {
-                      backgroundColor: colors.cardBackground,
-                      borderColor: colors.border,
-                    },
-                  ]}
-                >
-                  <View
-                    style={[
-                      styles.profileDropdownHeader,
-                      { borderBottomColor: colors.border },
-                    ]}
-                  >
-                    <View style={styles.profileAvatar}>
-                      <Text style={styles.profileAvatarText}>
-                        {userData.avatar}
-                      </Text>
-                    </View>
-                    <View style={styles.profileInfo}>
-                      <Text
-                        style={[styles.profileName, { color: colors.text }]}
-                      >
-                        {userData.name}
-                      </Text>
-                      <Text
-                        style={[
-                          styles.profileRole,
-                          { color: colors.textSecondary },
-                        ]}
-                      >
-                        {userData.role}
-                      </Text>
-                    </View>
-                  </View>
-                  <View style={styles.profileMenuItems}>
-                    <TouchableOpacity
-                      style={styles.profileMenuItem}
-                      onPress={handleMyProfile}
-                    >
-                      <Text style={styles.profileMenuIcon}>👤</Text>
-                      <Text
-                        style={[styles.profileMenuText, { color: colors.text }]}
-                      >
-                        My Profile
-                      </Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                      style={[
-                        styles.profileMenuItem,
-                        styles.profileMenuItemLast,
-                      ]}
-                      onPress={handleLogout}
-                    >
-                      <Text style={styles.profileMenuIcon}>🚪</Text>
-                      <Text
-                        style={[styles.profileMenuText, { color: colors.text }]}
-                      >
-                        Log Out
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              </>
-            )}
           </View>
         </View>
       </View>
@@ -162,30 +90,16 @@ const PerformanceBenchmarkingScreen = () => {
       <ScrollView
         style={[styles.scrollContainer, { backgroundColor: colors.background }]}
       >
-        <View style={styles.titleSection}>
-          <Text style={styles.pageIcon}>📊</Text>
-          <View>
-            <Text style={[styles.pageTitle, { color: colors.text }]}>
-              Performance Benchmarking
-            </Text>
-            <Text
-              style={[styles.pageSubtitle, { color: colors.textSecondary }]}
-            >
-              Track and analyze agent performance metrics.
-            </Text>
+        {/* Floating Header Card - Your Performance */}
+        <View style={[styles.headerCard, { backgroundColor: colors.primary }]}>
+          <View style={styles.cardHeaderLeft}>
+            <Text style={styles.cardHeaderIcon}>📈</Text>
+            <Text style={styles.cardHeaderTitle}>Your Performance</Text>
           </View>
         </View>
 
+        {/* Main Content Card */}
         <View style={[styles.card, { backgroundColor: colors.cardBackground }]}>
-          <View
-            style={[styles.cardHeader, { backgroundColor: colors.primary }]}
-          >
-            <View style={styles.cardHeaderLeft}>
-              <Text style={styles.cardHeaderIcon}>📈</Text>
-              <Text style={styles.cardHeaderTitle}>Your Performance</Text>
-            </View>
-          </View>
-
           <View style={styles.performanceSummary}>
             <View style={styles.summaryRow}>
               <Text
@@ -426,7 +340,7 @@ const styles = StyleSheet.create({
     paddingTop: 50,
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "flex-start",
+    alignItems: "center",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
@@ -434,14 +348,26 @@ const styles = StyleSheet.create({
     elevation: 3,
     zIndex: 10,
   },
-  headerLeft: {
-    flexDirection: "row",
-    alignItems: "flex-start",
-    flex: 1,
-  },
   burgerButtonSpace: {
     width: 40,
     height: 40,
+  },
+  headerTitleContainer: {
+    flexDirection: "column",
+    marginLeft: 8,
+    flex: 1,
+  },
+  headerTitle1: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#ffffff",
+    lineHeight: 22,
+  },
+  headerTitle2: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#ffffff",
+    lineHeight: 22,
   },
   headerIcons: {
     flexDirection: "row",
@@ -547,15 +473,29 @@ const styles = StyleSheet.create({
   pageSubtitle: {
     fontSize: 14,
   },
+  headerCard: {
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: 16,
+    marginHorizontal: 16,
+    marginTop: 16,
+    marginBottom: 12,
+    borderRadius: 16,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+    elevation: 4,
+  },
   card: {
-    borderRadius: 0,
+    borderRadius: 16,
     overflow: "hidden",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 8,
     elevation: 3,
-    marginBottom: 20,
+    marginBottom: 16,
   },
   cardHeader: {
     flexDirection: "row",
@@ -573,7 +513,7 @@ const styles = StyleSheet.create({
     color: "#ffffff",
   },
   cardHeaderTitle: {
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: "600",
     color: "#ffffff",
   },

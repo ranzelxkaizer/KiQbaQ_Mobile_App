@@ -57,7 +57,7 @@ const IncentiveTrackingScreen = () => {
   const handleLogout = () => {
     setProfileDropdownVisible(false);
     router.dismissAll();
-    router.replace("/LandingPage");
+    router.replace("/");
   };
 
   const handleMyProfile = () => {
@@ -70,11 +70,10 @@ const IncentiveTrackingScreen = () => {
       {/* BurgerMenu Component */}
       <BurgerMenu currentPage="Incentive Tracking" />
 
-      {/* Header - Icons Only - Fixed at top */}
-      <View style={[styles.header, { backgroundColor: colors.headerBg }]}>
-        <View style={styles.headerLeft}>
-          <View style={styles.burgerButtonSpace} />
-        </View>
+      {/* Header */}
+      <View style={[styles.header, { backgroundColor: "#6c5ce7" }]}>
+        <View style={styles.burgerButtonSpace} />
+        <Text style={styles.headerTitle}>Incentive Tracking</Text>
         <View style={styles.headerIcons}>
           <TouchableOpacity
             style={[styles.iconButton, { backgroundColor: colors.iconBg }]}
@@ -89,81 +88,6 @@ const IncentiveTrackingScreen = () => {
             >
               <Text style={styles.icon}>👤</Text>
             </TouchableOpacity>
-
-            {profileDropdownVisible && (
-              <>
-                <TouchableOpacity
-                  style={styles.profileDropdownBackdropInline}
-                  activeOpacity={1}
-                  onPress={toggleProfileDropdown}
-                />
-                <View
-                  style={[
-                    styles.profileDropdown,
-                    {
-                      backgroundColor: colors.cardBackground,
-                      borderColor: colors.border,
-                    },
-                  ]}
-                >
-                  <View
-                    style={[
-                      styles.profileDropdownHeader,
-                      { borderBottomColor: colors.border },
-                    ]}
-                  >
-                    <View style={styles.profileAvatar}>
-                      <Text style={styles.profileAvatarText}>
-                        {userData.avatar}
-                      </Text>
-                    </View>
-                    <View style={styles.profileInfo}>
-                      <Text
-                        style={[styles.profileName, { color: colors.text }]}
-                      >
-                        {userData.name}
-                      </Text>
-                      <Text
-                        style={[
-                          styles.profileRole,
-                          { color: colors.textSecondary },
-                        ]}
-                      >
-                        {userData.role}
-                      </Text>
-                    </View>
-                  </View>
-                  <View style={styles.profileMenuItems}>
-                    <TouchableOpacity
-                      style={styles.profileMenuItem}
-                      onPress={handleMyProfile}
-                    >
-                      <Text style={styles.profileMenuIcon}>👤</Text>
-                      <Text
-                        style={[styles.profileMenuText, { color: colors.text }]}
-                      >
-                        My Profile
-                      </Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                      style={[
-                        styles.profileMenuItem,
-                        styles.profileMenuItemLast,
-                      ]}
-                      onPress={handleLogout}
-                    >
-                      <Text style={styles.profileMenuIcon}>🚪</Text>
-                      <Text
-                        style={[styles.profileMenuText, { color: colors.text }]}
-                      >
-                        Log Out
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              </>
-            )}
           </View>
         </View>
       </View>
@@ -171,40 +95,23 @@ const IncentiveTrackingScreen = () => {
       <ScrollView
         style={[styles.scrollContainer, { backgroundColor: colors.background }]}
       >
-        {/* Page Title */}
-        <View style={styles.titleSection}>
-          <Text style={styles.pageIcon}>💰</Text>
-          <View>
-            <Text style={[styles.pageTitle, { color: colors.text }]}>
-              KiQbaQ Tracking
-            </Text>
-            <Text
-              style={[styles.pageSubtitle, { color: colors.textSecondary }]}
-            >
-              Monitor agent performance and KiQbaQ payouts.
-            </Text>
+        {/* Floating Header Card - Agent Incentive Tracking */}
+        <View style={[styles.headerCard, { backgroundColor: colors.purple }]}>
+          <View style={styles.cardHeaderLeft}>
+            <Text style={styles.cardHeaderIcon}>📊</Text>
+            <Text style={styles.cardHeaderTitle}>Agent Incentive Tracking</Text>
           </View>
+          <TouchableOpacity
+            style={styles.howItWorksButton}
+            onPress={() => setShowHowItWorksModal(true)}
+          >
+            <Text style={styles.howItWorksIcon}>ℹ️</Text>
+            <Text style={styles.howItWorksText}>How It Works</Text>
+          </TouchableOpacity>
         </View>
 
-        {/* Main Card - Agent Incentive Tracking */}
+        {/* Main Content Card */}
         <View style={[styles.card, { backgroundColor: colors.cardBackground }]}>
-          {/* Card Header */}
-          <View style={[styles.cardHeader, { backgroundColor: colors.purple }]}>
-            <View style={styles.cardHeaderLeft}>
-              <Text style={styles.cardHeaderIcon}>📊</Text>
-              <Text style={styles.cardHeaderTitle}>
-                Agent Incentive Tracking
-              </Text>
-            </View>
-            <TouchableOpacity
-              style={styles.howItWorksButton}
-              onPress={() => setShowHowItWorksModal(true)}
-            >
-              <Text style={styles.howItWorksIcon}>ℹ️</Text>
-              <Text style={styles.howItWorksText}>How It Works</Text>
-            </TouchableOpacity>
-          </View>
-
           {/* Agent Selector */}
           <View style={styles.controlsContainer}>
             <Text
@@ -743,6 +650,7 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     flex: 1,
+    paddingBottom: 80, // Space for navigation buttons
   },
   header: {
     padding: 20,
@@ -757,14 +665,15 @@ const styles = StyleSheet.create({
     elevation: 3,
     zIndex: 10,
   },
-  headerLeft: {
-    flexDirection: "row",
-    alignItems: "flex-start",
-    flex: 1,
-  },
   burgerButtonSpace: {
     width: 40,
     height: 40,
+  },
+  headerTitle: {
+    fontSize: 26,
+    fontWeight: "bold",
+    color: "#ffffff",
+    marginLeft: 12,
   },
   headerIcons: {
     flexDirection: "row",
@@ -837,19 +746,18 @@ const styles = StyleSheet.create({
   profileMenuItem: {
     flexDirection: "row",
     alignItems: "center",
-    padding: 12,
-    gap: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "#e9ecef",
+    padding: 14,
+    gap: 12,
   },
   profileMenuItemLast: {
-    borderBottomWidth: 0,
+    borderTopWidth: 0,
   },
   profileMenuIcon: {
-    fontSize: 16,
+    fontSize: 18,
   },
   profileMenuText: {
     fontSize: 14,
+    fontWeight: "500",
   },
   titleSection: {
     flexDirection: "row",
@@ -871,15 +779,30 @@ const styles = StyleSheet.create({
   pageSubtitle: {
     fontSize: 14,
   },
+  headerCard: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: 16,
+    marginHorizontal: 16,
+    marginTop: 16,
+    marginBottom: 12,
+    borderRadius: 16,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+    elevation: 4,
+  },
   card: {
-    borderRadius: 0,
+    borderRadius: 16,
     overflow: "hidden",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 8,
     elevation: 3,
-    marginBottom: 0,
+    marginBottom: 16,
   },
   cardHeader: {
     flexDirection: "row",
@@ -897,7 +820,7 @@ const styles = StyleSheet.create({
     color: "#ffffff",
   },
   cardHeaderTitle: {
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: "600",
     color: "#ffffff",
   },
@@ -907,7 +830,7 @@ const styles = StyleSheet.create({
     gap: 6,
     backgroundColor: "rgba(255, 255, 255, 0.2)",
     paddingVertical: 6,
-    paddingHorizontal: 10,
+    paddingHorizontal: 12,
     borderRadius: 16,
   },
   howItWorksIcon: {
