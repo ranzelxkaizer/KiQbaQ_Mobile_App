@@ -101,9 +101,10 @@ const AgentSchedulesScreen: React.FC = () => {
     textSecondary: isDarkMode ? "#b0b0b0" : "#6c757d",
     border: isDarkMode ? "#404040" : "#e9ecef",
     headerBg: isDarkMode ? "#2d2d2d" : "#ffffff",
-    primary: "#6c5ce7",
-    gradient1: "#6c5ce7",
-    gradient2: "#a78bfa",
+    iconBg: isDarkMode ? "#404040" : "#f8f9fa",
+    primary: "#5BB8F5",
+    gradient1: "#5BB8F5",
+    gradient2: "#4A90D9",
     success: "#00d4aa",
     warning: "#ffc107",
     danger: "#dc3545",
@@ -643,7 +644,7 @@ const AgentSchedulesScreen: React.FC = () => {
       )}
 
       {/* Header */}
-      <View style={[styles.header, { backgroundColor: "#6c5ce7" }]}>
+      <View style={[styles.header, { backgroundColor: "#4A90D9" }]}>
         <View style={styles.burgerButtonSpace} />
         <Text style={styles.headerTitle}>Agent Schedules</Text>
         <View style={styles.headerRight}>
@@ -1694,7 +1695,7 @@ const AgentSchedulesScreen: React.FC = () => {
                       styles.expectedExpensesInfo,
                       {
                         backgroundColor: isDarkMode
-                          ? "rgba(108, 92, 231, 0.1)"
+                          ? "rgba(91, 184, 245, 0.1)"
                           : "#f0f4ff",
                       },
                     ]}
@@ -1704,7 +1705,7 @@ const AgentSchedulesScreen: React.FC = () => {
                       style={[
                         styles.expectedExpensesInfoText,
                         {
-                          color: isDarkMode ? colors.primary : "#5a4ba6",
+                          color: isDarkMode ? colors.primary : "#3a8ac9",
                         },
                       ]}
                     >
@@ -2272,9 +2273,10 @@ const styles = StyleSheet.create({
     height: 40,
   },
   headerTitle: {
-    fontSize: 28,
+    fontSize: 30,
     fontWeight: "bold",
     color: "#ffffff",
+    marginLeft: 12,
   },
   headerRight: {
     flexDirection: "row",
@@ -2325,7 +2327,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: "#6c5ce7",
+    backgroundColor: "#5BB8F5",
     alignItems: "center",
     justifyContent: "center",
     marginRight: 12,
@@ -2459,6 +2461,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 16,
     marginBottom: 20,
+    marginHorizontal: 16,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
@@ -2709,7 +2712,7 @@ const styles = StyleSheet.create({
     fontWeight: "500",
   },
   calendarDayNumberToday: {
-    color: "#6c5ce7",
+    color: "#5BB8F5",
     fontWeight: "bold",
   },
   calendarEventDots: {
@@ -3062,7 +3065,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "rgba(108, 92, 231, 0.1)",
+    backgroundColor: "rgba(91, 184, 245, 0.1)",
   },
   datePickerNavIcon: {
     fontSize: 20,
@@ -3105,7 +3108,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   datePickerDayToday: {
-    backgroundColor: "#6c5ce7",
+    backgroundColor: "#5BB8F5",
   },
   datePickerDayText: {
     fontSize: 13,

@@ -29,9 +29,9 @@ const ResourceCenterScreen = () => {
     border: isDarkMode ? "#404040" : "#e9ecef",
     headerBg: isDarkMode ? "#2d2d2d" : "#ffffff",
     iconBg: isDarkMode ? "#404040" : "#f0f0f0",
-    primary: "#6c5ce7",
-    gradient1: "#6c5ce7",
-    gradient2: "#a29bfe",
+    primary: "#5BB8F5",
+    gradient1: "#5BB8F5",
+    gradient2: "#4A90D9",
     blue: "#6c8cff",
     green: "#00b894",
     lightBg: isDarkMode ? "#2a2a2a" : "#f8f9fa",
@@ -75,7 +75,7 @@ const ResourceCenterScreen = () => {
       <BurgerMenu currentPage="Resource Center" />
 
       {/* Header */}
-      <View style={[styles.header, { backgroundColor: "#6c5ce7" }]}>
+      <View style={[styles.header, { backgroundColor: "#4A90D9" }]}>
         <View style={styles.burgerButtonSpace} />
         <Text style={styles.headerTitle}>Resource Center</Text>
         <View style={styles.headerIcons}>
@@ -481,6 +481,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: "bold",
     color: "#ffffff",
+    marginLeft: 12,
   },
   headerIcons: {
     flexDirection: "row",
@@ -532,7 +533,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: "#6c5ce7",
+    backgroundColor: "#5BB8F5",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -610,6 +611,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 8,
     elevation: 3,
+    marginHorizontal: 16,
     marginBottom: 16,
   },
   cardHeader: {
@@ -736,7 +738,7 @@ const styles = StyleSheet.create({
   },
   checkmark: {
     fontSize: 16,
-    color: "#6c5ce7",
+    color: "#5BB8F5",
     fontWeight: "bold",
   },
   resourcesList: {

@@ -30,11 +30,11 @@ const IncentiveTrackingScreen = () => {
     textSecondary: isDarkMode ? "#b0b0b0" : "#6c757d",
     border: isDarkMode ? "#404040" : "#e9ecef",
     headerBg: isDarkMode ? "#2d2d2d" : "#ffffff",
-    primary: "#6c5ce7",
+    primary: "#5BB8F5",
     iconBg: isDarkMode ? "#404040" : "#f0f0f0",
     orange: "#ffa500",
     green: "#00b894",
-    purple: "#7c6fe7",
+    purple: "#5BB8F5", // Changed to blue to match new theme
   };
 
   const userData = {
@@ -71,7 +71,7 @@ const IncentiveTrackingScreen = () => {
       <BurgerMenu currentPage="Incentive Tracking" />
 
       {/* Header */}
-      <View style={[styles.header, { backgroundColor: "#6c5ce7" }]}>
+      <View style={[styles.header, { backgroundColor: "#4A90D9" }]}>
         <View style={styles.burgerButtonSpace} />
         <Text style={styles.headerTitle}>Incentive Tracking</Text>
         <View style={styles.headerIcons}>
@@ -567,7 +567,7 @@ const IncentiveTrackingScreen = () => {
                     style={[styles.noteBox, { backgroundColor: "#fff3e0" }]}
                   >
                     <Text style={styles.noteIcon}>💡</Text>
-                    <Text style={[styles.noteText, { color: colors.text }]}>
+                    <Text style={[styles.noteText, { color: "black" }]}>
                       Incentives continue as long as the school remains
                       subscribed to Premium.
                     </Text>
@@ -725,7 +725,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: "#6c5ce7",
+    backgroundColor: "#5BB8F5",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -802,6 +802,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 8,
     elevation: 3,
+    marginHorizontal: 16,
     marginBottom: 16,
   },
   cardHeader: {
@@ -901,18 +902,18 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   dropdownItemActive: {
-    backgroundColor: "rgba(108, 92, 231, 0.1)",
+    backgroundColor: "rgba(91, 184, 245, 0.1)",
   },
   dropdownItemText: {
     fontSize: 14,
   },
   dropdownItemTextActive: {
     fontWeight: "600",
-    color: "#6c5ce7",
+    color: "#5BB8F5",
   },
   dropdownItemCheck: {
     fontSize: 14,
-    color: "#6c5ce7",
+    color: "#5BB8F5",
     fontWeight: "bold",
   },
   summaryContainer: {

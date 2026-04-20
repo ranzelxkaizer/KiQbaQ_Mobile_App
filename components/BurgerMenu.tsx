@@ -356,7 +356,7 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   logoText: {
-    color: "#6c5ce7",
+    color: "#5BB8F5",
     fontSize: 28,
     fontWeight: "bold",
   },

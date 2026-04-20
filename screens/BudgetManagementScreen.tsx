@@ -132,9 +132,10 @@ const BudgetManagementScreen: React.FC = () => {
     textSecondary: isDarkMode ? "#b0b0b0" : "#6c757d",
     border: isDarkMode ? "#404040" : "#e9ecef",
     headerBg: isDarkMode ? "#2d2d2d" : "#ffffff",
-    primary: "#6c5ce7",
-    gradient1: "#6c5ce7",
-    gradient2: "#a78bfa",
+    iconBg: isDarkMode ? "#404040" : "#f8f9fa",
+    primary: "#5BB8F5",
+    gradient1: "#5BB8F5",
+    gradient2: "#4A90D9",
     success: "#00d4aa",
     warning: "#ffc107",
     danger: "#dc3545",
@@ -440,7 +441,7 @@ const BudgetManagementScreen: React.FC = () => {
       )}
 
       {/* Header */}
-      <View style={[styles.header, { backgroundColor: "#6c5ce7" }]}>
+      <View style={[styles.header, { backgroundColor: "#4A90D9" }]}>
         <View style={styles.burgerButtonSpace} />
         <Text style={styles.headerTitle}>Budget Management</Text>
         <View style={styles.headerRight}>
@@ -1005,6 +1006,25 @@ const BudgetManagementScreen: React.FC = () => {
                   </Text>
                 </View>
               </View>
+
+              {/* Status Filter Dropdown */}
+              <View style={styles.filterContainer}>
+                <TouchableOpacity
+                  style={[
+                    styles.statusFilterDropdown,
+                    {
+                      backgroundColor: colors.cardBackground,
+                      borderColor: colors.border,
+                    },
+                  ]}
+                >
+                  <Text style={[styles.filterText, { color: colors.text }]}>
+                    All Status
+                  </Text>
+                  <Text style={styles.dropdownArrow}>▼</Text>
+                </TouchableOpacity>
+              </View>
+
               {/* Expenses Section */}
               <View
                 style={[
@@ -1501,9 +1521,10 @@ const styles = StyleSheet.create({
     height: 40,
   },
   headerTitle: {
-    fontSize: 25,
+    fontSize: 24,
     fontWeight: "bold",
     color: "#ffffff",
+    marginLeft: 12,
   },
   headerRight: {
     flexDirection: "row",
@@ -1554,7 +1575,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: "#6c5ce7",
+    backgroundColor: "#5BB8F5",
     alignItems: "center",
     justifyContent: "center",
     marginRight: 12,
@@ -1639,7 +1660,7 @@ const styles = StyleSheet.create({
     color: "#ffffff",
   },
   overviewTitle: {
-    fontSize: 22,
+    fontSize: 16,
     fontWeight: "600",
     color: "#ffffff",
   },
@@ -1730,6 +1751,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 8,
     elevation: 3,
+    marginHorizontal: 16,
     marginBottom: 16,
   },
   requestsHeader: {

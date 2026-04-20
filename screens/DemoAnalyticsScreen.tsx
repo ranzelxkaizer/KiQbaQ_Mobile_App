@@ -26,9 +26,10 @@ const DemoAnalyticsScreen: React.FC = () => {
     textSecondary: isDarkMode ? "#b0b0b0" : "#6c757d",
     border: isDarkMode ? "#404040" : "#e9ecef",
     headerBg: isDarkMode ? "#2d2d2d" : "#ffffff",
-    primary: "#6c5ce7",
-    gradient1: "#6c5ce7",
-    gradient2: "#a78bfa",
+    iconBg: isDarkMode ? "#404040" : "#f8f9fa",
+    primary: "#5BB8F5",
+    gradient1: "#5BB8F5",
+    gradient2: "#4A90D9",
     success: "#00d4aa",
     warning: "#ffc107",
     danger: "#dc3545",
@@ -175,7 +176,7 @@ const DemoAnalyticsScreen: React.FC = () => {
       )}
 
       {/* Header */}
-      <View style={[styles.header, { backgroundColor: "#6c5ce7" }]}>
+      <View style={[styles.header, { backgroundColor: "#4A90D9" }]}>
         <View style={styles.burgerButtonSpace} />
         <Text style={styles.headerTitle}>Demo Analytics</Text>
         <View style={styles.headerRight}>
@@ -314,19 +315,19 @@ const DemoAnalyticsScreen: React.FC = () => {
               styles.metricCard,
               {
                 backgroundColor: colors.cardBackground,
-                borderColor: "#6c5ce7",
+                borderColor: "#5BB8F5",
               },
             ]}
             onPress={() => handleMetricClick("QR Scans")}
           >
             <View style={styles.metricHeader}>
-              <Text style={[styles.metricLabel, { color: "#6c5ce7" }]}>
+              <Text style={[styles.metricLabel, { color: "#5BB8F5" }]}>
                 QR Scans
               </Text>
               <View
                 style={[
                   styles.metricIconContainer,
-                  { backgroundColor: "#ede9fe" },
+                  { backgroundColor: "#e0f2fe" },
                 ]}
               >
                 <Text style={styles.metricIcon}>📱</Text>
@@ -583,9 +584,10 @@ const styles = StyleSheet.create({
     height: 40,
   },
   headerTitle: {
-    fontSize: 30,
+    fontSize: 32,
     fontWeight: "bold",
     color: "#ffffff",
+    marginLeft: 12,
   },
   headerRight: {
     flexDirection: "row",
@@ -636,7 +638,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: "#6c5ce7",
+    backgroundColor: "#5BB8F5",
     alignItems: "center",
     justifyContent: "center",
     marginRight: 12,

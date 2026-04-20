@@ -26,15 +26,15 @@ const PerformanceBenchmarkingScreen = () => {
     border: isDarkMode ? "#404040" : "#e9ecef",
     headerBg: isDarkMode ? "#2d2d2d" : "#ffffff",
     iconBg: isDarkMode ? "#404040" : "#f0f0f0",
-    primary: "#6c5ce7",
+    primary: "#5BB8F5",
     blue: "#6c8cff",
     cyan: "#48cae4",
     green: "#00b894",
     lightBg: isDarkMode ? "#2a2a2a" : "#f8f9fa",
     progressBg: isDarkMode ? "#404040" : "#e9ecef",
     activeTabBg: isDarkMode
-      ? "rgba(108, 92, 231, 0.2)"
-      : "rgba(108, 92, 231, 0.1)",
+      ? "rgba(91, 184, 245, 0.2)"
+      : "rgba(91, 184, 245, 0.1)",
   };
 
   const userData = {
@@ -63,7 +63,7 @@ const PerformanceBenchmarkingScreen = () => {
       <BurgerMenu currentPage="Performance Benchmarking" />
 
       {/* Header */}
-      <View style={[styles.header, { backgroundColor: "#6c5ce7" }]}>
+      <View style={[styles.header, { backgroundColor: "#4A90D9" }]}>
         <View style={styles.burgerButtonSpace} />
         <View style={styles.headerTitleContainer}>
           <Text style={styles.headerTitle1}>Performance</Text>
@@ -419,7 +419,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: "#6c5ce7",
+    backgroundColor: "#5BB8F5",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -474,6 +474,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   headerCard: {
+    flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     padding: 16,
@@ -495,6 +496,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 8,
     elevation: 3,
+    marginHorizontal: 16,
     marginBottom: 16,
   },
   cardHeader: {
@@ -513,7 +515,7 @@ const styles = StyleSheet.create({
     color: "#ffffff",
   },
   cardHeaderTitle: {
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: "600",
     color: "#ffffff",
   },

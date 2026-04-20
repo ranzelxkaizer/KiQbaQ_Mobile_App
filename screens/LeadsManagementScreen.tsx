@@ -175,9 +175,10 @@ const LeadsManagementScreen: React.FC = () => {
     textSecondary: isDarkMode ? "#b0b0b0" : "#6c757d",
     border: isDarkMode ? "#404040" : "#e9ecef",
     headerBg: isDarkMode ? "#2d2d2d" : "#ffffff",
-    primary: "#6c5ce7",
-    gradient1: "#6c5ce7",
-    gradient2: "#a78bfa",
+    iconBg: isDarkMode ? "#404040" : "#f8f9fa",
+    primary: "#5BB8F5",
+    gradient1: "#5BB8F5",
+    gradient2: "#4A90D9",
   };
 
   const userData = {
@@ -332,8 +333,8 @@ const LeadsManagementScreen: React.FC = () => {
         </>
       )}
 
-      {/* Header - Clean Purple Design */}
-      <View style={[styles.header, { backgroundColor: "#6c5ce7" }]}>
+      {/* Header - Clean Blue Design */}
+      <View style={[styles.header, { backgroundColor: "#4A90D9" }]}>
         <View style={styles.headerLeft}>
           <View style={styles.burgerButtonSpace} />
           <Text style={styles.headerTitle}>Leads Management</Text>
@@ -1027,7 +1028,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: "#6c5ce7",
+    backgroundColor: "#5BB8F5",
     alignItems: "center",
     justifyContent: "center",
     marginRight: 12,
@@ -1085,12 +1086,14 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   card: {
+    borderRadius: 16,
     overflow: "hidden",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 8,
     elevation: 3,
+    marginHorizontal: 16,
     marginBottom: 16,
   },
   headerCard: {
@@ -1202,18 +1205,18 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   dropdownItemActive: {
-    backgroundColor: "rgba(108, 92, 231, 0.1)",
+    backgroundColor: "rgba(91, 184, 245, 0.1)",
   },
   dropdownItemText: {
     fontSize: 14,
   },
   dropdownItemTextActive: {
     fontWeight: "600",
-    color: "#6c5ce7",
+    color: "#5BB8F5",
   },
   dropdownItemCheck: {
     fontSize: 14,
-    color: "#6c5ce7",
+    color: "#5BB8F5",
     fontWeight: "bold",
   },
   searchInput: {

@@ -6,7 +6,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View
+  View,
 } from "react-native";
 import { useTheme } from "../app/contexts/ThemeContext";
 
@@ -49,7 +49,7 @@ const ProfileScreen: React.FC = () => {
     textSecondary: isDarkMode ? "#b0b0b0" : "#6c757d",
     border: isDarkMode ? "#404040" : "#e9ecef",
     inputBg: isDarkMode ? "#3a3a3a" : "#f8f9fa",
-    primary: "#6c5ce7",
+    primary: "#5BB8F5",
   };
 
   const handleSaveUsername = () => {
@@ -74,8 +74,8 @@ const ProfileScreen: React.FC = () => {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      {/* Header - Purple with Title and Back Button */}
-      <View style={[styles.header, { backgroundColor: "#6c5ce7" }]}>
+      {/* Header - Blue with Title and Back Button */}
+      <View style={[styles.header, { backgroundColor: "#4A90D9" }]}>
         <TouchableOpacity
           style={styles.backButton}
           onPress={() => router.back()}
@@ -845,13 +845,6 @@ const ProfileScreen: React.FC = () => {
             </View>
           </View>
         )}
-
-        {/* Footer */}
-        <View style={styles.footer}>
-          <Text style={[styles.footerText, { color: colors.textSecondary }]}>
-            © 2026, made with ❤️ by Affirm Technology
-          </Text>
-        </View>
       </ScrollView>
     </View>
   );
@@ -875,35 +868,35 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   backButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 36,
+    height: 36,
+    borderRadius: 18,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "rgba(255, 255, 255, 0.2)",
   },
   backIcon: {
-    fontSize: 24,
+    fontSize: 20,
     color: "#ffffff",
     fontWeight: "bold",
   },
   headerTitle: {
-    fontSize: 24,
-    fontWeight: "bold",
+    fontSize: 18,
+    fontWeight: "600",
     color: "#ffffff",
     flex: 1,
     textAlign: "center",
   },
   themeButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 36,
+    height: 36,
+    borderRadius: 18,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "rgba(255, 255, 255, 0.2)",
   },
   themeIcon: {
-    fontSize: 20,
+    fontSize: 18,
   },
   tabsContainer: {
     flexDirection: "row",

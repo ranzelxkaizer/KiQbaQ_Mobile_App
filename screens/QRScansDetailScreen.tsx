@@ -25,7 +25,7 @@ const QRScansDetailScreen: React.FC = () => {
     textSecondary: isDarkMode ? "#b0b0b0" : "#6c757d",
     border: isDarkMode ? "#404040" : "#e9ecef",
     headerBg: isDarkMode ? "#2d2d2d" : "#ffffff",
-    primary: "#6c5ce7",
+    primary: "#5BB8F5",
   };
 
   const userData = {
@@ -49,8 +49,8 @@ const QRScansDetailScreen: React.FC = () => {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      {/* Header - Purple with Back Button */}
-      <View style={[styles.header, { backgroundColor: "#6c5ce7" }]}>
+      {/* Header - Blue with Back Button */}
+      <View style={[styles.header, { backgroundColor: "#4A90D9" }]}>
         <TouchableOpacity
           style={styles.backButton}
           onPress={() => router.back()}
@@ -201,8 +201,12 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 3,
   },
+  burgerButtonSpace: {
+    width: 40,
+    height: 40,
+  },
   headerTitle: {
-    fontSize: 30,
+    fontSize: 18,
     fontWeight: "600",
     color: "#ffffff",
     flex: 1,
@@ -218,6 +222,9 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
+  },
+  icon: {
+    fontSize: 20,
   },
   profileDropdownBackdrop: {
     position: "absolute",
@@ -254,7 +261,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: "#6c5ce7",
+    backgroundColor: "#5BB8F5",
     alignItems: "center",
     justifyContent: "center",
     marginRight: 12,
@@ -327,7 +334,7 @@ const styles = StyleSheet.create({
   },
   backButtonIcon: {
     color: "#ffffff",
-    fontSize: 35,
+    fontSize: 18,
   },
   backButtonText: {
     color: "#ffffff",

@@ -24,7 +24,7 @@ const ConversionTrackingDetailScreen: React.FC = () => {
     textSecondary: isDarkMode ? "#b0b0b0" : "#6c757d",
     border: isDarkMode ? "#404040" : "#e9ecef",
     headerBg: isDarkMode ? "#2d2d2d" : "#ffffff",
-    primary: "#6c5ce7",
+    primary: "#5BB8F5",
   };
 
   const handleBackToAnalytics = () => {
@@ -33,15 +33,15 @@ const ConversionTrackingDetailScreen: React.FC = () => {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      {/* Header - Purple with Back Button */}
-      <View style={[styles.header, { backgroundColor: "#6c5ce7" }]}>
+      {/* Header - Blue with Back Button */}
+      <View style={[styles.header, { backgroundColor: "#4A90D9" }]}>
         <TouchableOpacity
           style={styles.backButton}
           onPress={() => router.back()}
         >
           <Text style={styles.backIcon}>←</Text>
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Conversion Tracking</Text>
+        <Text style={styles.headerTitle}>Conversion Tracking Detail</Text>
         <View style={styles.headerRightSpace} />
       </View>
 
@@ -67,16 +67,16 @@ const ConversionTrackingDetailScreen: React.FC = () => {
               styles.statCard,
               {
                 backgroundColor: colors.cardBackground,
-                borderColor: "#6c5ce7",
+                borderColor: "#5BB8F5",
               },
             ]}
           >
-            <Text style={[styles.statLabel, { color: "#6c5ce7" }]}>
+            <Text style={[styles.statLabel, { color: "#5BB8F5" }]}>
               All Visitors
             </Text>
             <Text style={[styles.statValue, { color: colors.text }]}>0</Text>
             <View
-              style={[styles.statIconContainer, { backgroundColor: "#ede9fe" }]}
+              style={[styles.statIconContainer, { backgroundColor: "#e0f2fe" }]}
             >
               <Text style={styles.statIcon}>👥</Text>
             </View>
@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   headerTitle: {
-    fontSize: 30,
+    fontSize: 18,
     fontWeight: "600",
     color: "#ffffff",
     flex: 1,

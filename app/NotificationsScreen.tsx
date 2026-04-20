@@ -77,7 +77,7 @@ const NotificationsScreen: React.FC = () => {
     border: isDarkMode ? "#404040" : "#e9ecef",
     headerBg: isDarkMode ? "#2d2d2d" : "#ffffff",
     iconBg: isDarkMode ? "#404040" : "#f8f9fa",
-    primary: "#6c5ce7",
+    primary: "#5BB8F5",
     secondary: "#48cae4",
     green: "#00b894",
     red: "#d63031",
@@ -124,8 +124,8 @@ const NotificationsScreen: React.FC = () => {
     <SafeAreaView
       style={[styles.container, { backgroundColor: colors.background }]}
     >
-      {/* Header - Purple with Title and Back Button */}
-      <View style={[styles.header, { backgroundColor: "#6c5ce7" }]}>
+      {/* Header - Blue with Title and Back Button */}
+      <View style={[styles.header, { backgroundColor: "#4A90D9" }]}>
         <TouchableOpacity
           style={styles.backButton}
           onPress={() => router.back()}
@@ -276,31 +276,30 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   backButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 36,
+    height: 36,
+    borderRadius: 18,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "rgba(255, 255, 255, 0.2)",
   },
   backIcon: {
-    fontSize: 24,
+    fontSize: 20,
     color: "#ffffff",
     fontWeight: "bold",
   },
   headerTitle: {
-    fontSize: 24,
-    fontWeight: "bold",
+    fontSize: 30,
+    fontWeight: "600",
     color: "#ffffff",
     flex: 1,
     textAlign: "center",
   },
   headerRightSpace: {
-    width: 40,
+    width: 36,
   },
   actionButtonsContainer: {
     flexDirection: "row",
-    paddingTop: 20,
     paddingHorizontal: 16,
     gap: 12,
     marginBottom: 16,

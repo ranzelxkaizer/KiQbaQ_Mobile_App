@@ -23,20 +23,20 @@ const VideoPerformanceDetailScreen: React.FC = () => {
     text: isDarkMode ? "#ffffff" : "#2c3e50",
     textSecondary: isDarkMode ? "#b0b0b0" : "#6c757d",
     border: isDarkMode ? "#404040" : "#e9ecef",
-    primary: "#6c5ce7",
+    primary: "#5BB8F5",
   };
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      {/* Header - Purple with Back Button */}
-      <View style={[styles.header, { backgroundColor: "#6c5ce7" }]}>
+      {/* Header - Blue with Back Button */}
+      <View style={[styles.header, { backgroundColor: "#4A90D9" }]}>
         <TouchableOpacity
           style={styles.backButton}
           onPress={() => router.back()}
         >
           <Text style={styles.backIcon}>←</Text>
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Video Performance</Text>
+        <Text style={styles.headerTitle}>Video Performance Detail</Text>
         <View style={styles.headerRightSpace} />
       </View>
 
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   headerTitle: {
-    fontSize: 30,
+    fontSize: 18,
     fontWeight: "600",
     color: "#ffffff",
     flex: 1,
